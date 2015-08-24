@@ -1,0 +1,22 @@
+{
+  "name": "@gustavnikolaj/keepass-menubar",
+  "version": "0.0.0",
+  "description": "Keepass 2 Read-only GUI",
+  "main": "index.js",
+  "scripts": {
+    "build": "electron-packager . Example --platform=darwin --arch=x64 --version=0.30.3 --ignore=node_modules/electron --icon=Icon.icns",
+    "start": "electron .",
+    "test": "mocha"
+  },
+  "author": "Gustav Nikolaj Olsen <gustavnikolaj@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "5.8.21",
+    "electron-packager": "5.0.2",
+    "electron-prebuilt": "0.31.0"
+  },
+  "dependencies": {
+    "react": "0.13.3",
+    "menubar": "2.1.2"
+  }
+}
