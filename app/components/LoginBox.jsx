@@ -1,9 +1,9 @@
-import React from 'react'
+import { Component } from 'react'
 
-export default class LoginBox extends React.Component {
+export default class LoginBox extends Component {
     render () {
         return (
-            <input type="password" />    
+            <input type="password" />
         )
     }
 }
