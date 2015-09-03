@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginBox from './components/LoginBox.jsx'
+import Application from './components/Application.jsx'
 import ipc from 'ipc'
 
 var application = document.getElementById('application')
@@ -17,6 +17,6 @@ window.addEventListener('load', checkForPassword)
 
 
 React.render(
-    <LoginBox />,
+    <Application />,
     application
 )
