@@ -2,7 +2,6 @@ var menubar = require('menubar')
 var globalShortcut = require('global-shortcut')
 var ipc = require('ipc')
 var KeepassClient = require('./lib/keepassClient')
-var ipcHandler = require('./lib/ipcApi')
 
 // var mb = menubar({
 //   dir: __dirname + '/app',
@@ -23,7 +22,7 @@ function openApplication () {
   mb.tray.emit('clicked', {}, { x: 0, y: 0 })
 }
 
-var keepassClient = new KeepassClient();
+var keepassClient = new KeepassClient('./TestDatabase.kdbx');
 
 mb.app.on('ready', function () {
   if (!globalShortcut.register('ctrl+shift+space', openApplication)) {
@@ -44,4 +43,22 @@ mb.app.on('will-quit', function () {
 ipc.on('passwordRequest', function (event) {
   console.log('passwordRequest received', Array.prototype.slice(arguments, 1))
   event.sender.send('passwordResponse', false)
+})
+
+ipc.on('passwordListRequest', function (event, masterKey) {
+  if (masterKey) {
+    keepassClient.masterKey(masterKey)
+  }
+  keepassClient.getList(function (err, passwords) {
+    if (err) {
+      console.log(err)
+      return event.sender.send('passwordListResponse', {
+        error: 'LOCKED_DATABASE'
+      })
+    }
+
+    return event.sender.send('passwordListResponse', {
+      passwords
+    })
+  })
 })

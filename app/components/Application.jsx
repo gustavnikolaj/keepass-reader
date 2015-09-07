@@ -3,7 +3,7 @@ import LoginBox from './LoginBox'
 import PasswordSelector from './PasswordSelector'
 import { connect } from 'react-redux'
 
-import unlockDatabase from '../actions/unlockDatabase'
+import fetchPasswordList from '../actions/fetchPasswordList'
 
  class Application extends Component {
   render () {
@@ -14,7 +14,7 @@ import unlockDatabase from '../actions/unlockDatabase'
       )
     } else {
       return (
-        <LoginBox submitMasterKey={ key => dispatch(unlockDatabase(key)) }
+        <LoginBox submitMasterKey={ key => dispatch(fetchPasswordList(key)) }
                   isSubmitting={isUnlocking} />
       )
     }

@@ -7,18 +7,19 @@ import createLogger from 'redux-logger'
 import { Provider } from 'react-redux'
 import { database } from './reducers/database'
 import { passwordList } from './reducers/passwordList'
-import requestPasswordList from './actions/requestPasswordList'
 
-ipc.on('passwordResponse', function (hasPassword) {
-  console.log('passwordResponse gotten')
-})
+import fetchPasswordList from './actions/fetchPasswordList'
 
-function checkForPassword () {
-  ipc.send('passwordRequest')
-}
+//ipc.on('passwordResponse', function (hasPassword) {
+//  console.log('passwordResponse gotten')
+//})
 
-window.addEventListener('focus', checkForPassword)
-window.addEventListener('load', checkForPassword)
+// function checkForPassword () {
+//   ipc.send('passwordRequest')
+// }
+//
+// window.addEventListener('focus', checkForPassword)
+// window.addEventListener('load', checkForPassword)
 
 const loggerMiddleware = createLogger({
   collapsed: true,
@@ -37,7 +38,7 @@ const reducer = combineReducers({
 
 let store = createStoreWithMiddleware(reducer)
 
-//store.dispatch(requestPasswordList())
+store.dispatch(fetchPasswordList())
 
 let rootElement = document.getElementById('application')
 
