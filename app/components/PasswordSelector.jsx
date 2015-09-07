@@ -6,6 +6,7 @@ export default class PasswordSelector extends React.Component {
   render () {
     return (
       <div>
+        <b>Select your password</b>
         <PasswordFilter />
         <PasswordList />
       </div>

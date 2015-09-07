@@ -1,21 +1,36 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import LoginBox from './LoginBox'
 import PasswordSelector from './PasswordSelector'
+import { connect } from 'react-redux'
 
-export default class Application extends React.Component {
+import unlockDatabase from '../actions/unlockDatabase'
+
+ class Application extends Component {
   render () {
-    if (this.props.hasPassword) {
+    const { dispatch, isUnlocked, isUnlocking } = this.props;
+    if (isUnlocked) {
       return (
         <PasswordSelector />
       )
     } else {
       return (
-        <LoginBox />
+        <LoginBox submitMasterKey={ key => dispatch(unlockDatabase(key)) }
+                  isSubmitting={isUnlocking} />
       )
     }
   }
 }
 
 Application.propTypes = {
-  hasPassword: React.PropTypes.bool
+  isUnlocked: PropTypes.bool,
+  isUnlocking: PropTypes.bool
 }
+
+function select (state) {
+  return {
+    isUnlocked: state.database.isUnlocked,
+    isUnlocking: state.database.isUnlocking
+  }
+}
+
+export default connect(select)(Application)
