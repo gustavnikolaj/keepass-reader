@@ -10,17 +10,6 @@ import { passwordList } from './reducers/passwordList'
 
 import fetchPasswordList from './actions/fetchPasswordList'
 
-//ipc.on('passwordResponse', function (hasPassword) {
-//  console.log('passwordResponse gotten')
-//})
-
-// function checkForPassword () {
-//   ipc.send('passwordRequest')
-// }
-//
-// window.addEventListener('focus', checkForPassword)
-// window.addEventListener('load', checkForPassword)
-
 const loggerMiddleware = createLogger({
   collapsed: true,
   predicate: (getState, action) => action.type !== 'AUTH_REMOVE_TOKEN'

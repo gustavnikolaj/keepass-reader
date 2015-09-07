@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import LoginBox from './LoginBox'
+import LoadingScreen from './LoadingScreen'
 import PasswordSelector from './PasswordSelector'
 import { connect } from 'react-redux'
 
@@ -7,10 +8,14 @@ import fetchPasswordList from '../actions/fetchPasswordList'
 
  class Application extends Component {
   render () {
-    const { dispatch, isUnlocked, isUnlocking } = this.props;
+    const { dispatch, isUnlocked, isUnlocking, passwords } = this.props;
     if (isUnlocked) {
       return (
-        <PasswordSelector />
+        <PasswordSelector passwords={ passwords }/>
+      )
+    } else if (isUnlocking) {
+      return (
+        <LoadingScreen />
       )
     } else {
       return (
@@ -23,13 +28,15 @@ import fetchPasswordList from '../actions/fetchPasswordList'
 
 Application.propTypes = {
   isUnlocked: PropTypes.bool,
-  isUnlocking: PropTypes.bool
+  isUnlocking: PropTypes.bool,
+  passwords: PropTypes.array
 }
 
 function select (state) {
   return {
     isUnlocked: state.database.isUnlocked,
-    isUnlocking: state.database.isUnlocking
+    isUnlocking: state.database.isUnlocking,
+    passwords: state.passwordList.passwords
   }
 }
 
