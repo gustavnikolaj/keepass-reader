@@ -3,10 +3,7 @@ import PasswordItem from './PasswordItem'
 
 export default class PasswordList extends Component {
   render () {
-    let regexFilter = new RegExp(this.props.filter)
-    let passwordNodes = this.props.passwords.filter(function (entry) {
-      return regexFilter.test(entry.title)
-    }).map(function (password) {
+    let passwordNodes = this.props.passwords.map(function (password) {
       return (
         <PasswordItem uuid={password.uuid} title={password.title} />
       );

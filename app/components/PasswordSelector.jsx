@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import PasswordFilter from './PasswordFilter'
 import PasswordList from './PasswordList'
 
 export default class PasswordSelector extends Component {
@@ -10,23 +9,31 @@ export default class PasswordSelector extends Component {
       filter: ''
     }
 
-    this.handleInput = this.handleInput.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
   }
 
-  handleInput (filterText) {
+  handleFilter () {
     this.setState({
-      filter: filterText
+      filter: this.refs.filter.getDOMNode().value
     });
   }
 
   render () {
     const { passwords } = this.props;
 
+    let regexFilter = new RegExp(this.state.filter)
+    let filteredPasswords = passwords.filter(function (entry) {
+      return regexFilter.test(entry.title)
+    })
+
     return (
       <div>
-        <b>Select your password</b>
-        <PasswordFilter onInput={ this.handleInput } />
-        <PasswordList passwords={ passwords } filter={ this.state.filter } />
+        <form>
+          <input type='input'
+                 ref='filter'
+                 onChange={this.handleFilter} />
+        </form>
+        <PasswordList passwords={ filteredPasswords } />
       </div>
     )
   }
