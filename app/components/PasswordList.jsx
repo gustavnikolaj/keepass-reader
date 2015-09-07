@@ -9,8 +9,6 @@ export default class PasswordList extends Component {
       );
     });
 
-    console.log('rendering with filter', this.props.filter)
-
     return (
       <div>
         {passwordNodes}
@@ -20,6 +18,5 @@ export default class PasswordList extends Component {
 }
 
 PasswordList.propTypes = {
-  passwords: PropTypes.array,
-  filter: PropTypes.string
+  passwords: PropTypes.array
 }
