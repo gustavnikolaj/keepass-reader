@@ -3,8 +3,7 @@ import PasswordList from './PasswordList'
 
 let keyCodes = {
   ARROWUP: 38,
-  ARROWDOWN: 40,
-  ENTER: 13
+  ARROWDOWN: 40
 }
 
 export default class PasswordSelector extends Component {
@@ -18,6 +17,7 @@ export default class PasswordSelector extends Component {
 
     this.handleFilter = this.handleFilter.bind(this)
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.getFilteredPasswords = this.getFilteredPasswords.bind(this)
   }
 
@@ -36,6 +36,14 @@ export default class PasswordSelector extends Component {
     })
   }
 
+  handleSubmit (e) {
+    e.preventDefault()
+    const { selectedIndex } = this.state
+    console.log('select!')
+    let uuid = this.getFilteredPasswords()[selectedIndex].uuid
+    this.props.copyPassword(uuid)
+  }
+
   handleOnKeyDown (e) {
     const { selectedIndex } = this.state
 
@@ -51,9 +59,6 @@ export default class PasswordSelector extends Component {
           selectedIndex: selectedIndex + 1
         })
       }
-    } else if (e.keyCode === keyCodes.ENTER) {
-      console.log('select!')
-      e.preventDefault()
     }
   }
 
@@ -63,7 +68,7 @@ export default class PasswordSelector extends Component {
 
     return (
       <div>
-        <form>
+        <form onSubmit={ this.handleSubmit }>
           <input type='input'
                  ref='filter'
                  onKeyDown={this.handleOnKeyDown}

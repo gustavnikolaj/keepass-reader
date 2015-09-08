@@ -1,8 +1,8 @@
 import { REQUEST_PASSWORD } from './types'
 
-export default function requestPassword (index) {
+export default function requestPassword (uuid) {
   return {
     type: REQUEST_PASSWORD,
-    index
+    uuid
   }
 }

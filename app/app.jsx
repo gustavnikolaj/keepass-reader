@@ -5,8 +5,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import { Provider } from 'react-redux'
-import { database } from './reducers/database'
-import { passwordList } from './reducers/passwordList'
 
 import fetchPasswordList from './actions/fetchPasswordList'
 
@@ -20,10 +18,7 @@ const createStoreWithMiddleware = applyMiddleware(
   loggerMiddleware // neat middleware that logs actions
 )(createStore)
 
-const reducer = combineReducers({
-  database,
-  passwordList
-})
+import reducer from './reducer'
 
 let store = createStoreWithMiddleware(reducer)
 

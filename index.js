@@ -40,9 +40,16 @@ mb.app.on('will-quit', function () {
 
 
 
-ipc.on('passwordRequest', function (event) {
-  console.log('passwordRequest received', Array.prototype.slice(arguments, 1))
-  event.sender.send('passwordResponse', false)
+ipc.on('passwordRequest', function (event, uuid) {
+  keepassClient.getPassword(uuid, function (err, password) {
+    if (err) {
+      return event.sender.send('passwordResponse', {
+        error: 'LOCKED_DATABASE'
+      })
+    }
+
+    return event.sender.send('passwordResponse', { password })
+  })
 })
 
 ipc.on('passwordListRequest', function (event, masterKey) {
