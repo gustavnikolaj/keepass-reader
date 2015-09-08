@@ -2,12 +2,17 @@ import React, { Component, PropTypes } from 'react'
 
 export default class PasswordItem extends Component {
   render () {
+    const { title, uuid, isSelected } = this.props
+    let selectedStyle = {}
+    if (isSelected) {
+      selectedStyle.border = '3px solid red'
+    }
     return (
-      <div className="passwordItem">
+      <div className="passwordItem" style={ selectedStyle }>
         <h2 className="passwordItem-title">
-          {this.props.title}
+          {title}
         </h2>
-        <i>{this.props.uuid}</i>
+        <i>{uuid}</i>
       </div>
     )
   }
@@ -15,5 +20,6 @@ export default class PasswordItem extends Component {
 
 PasswordItem.propTypes = {
   uuid: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
+  isSelected: PropTypes.bool
 }

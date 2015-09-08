@@ -1,39 +1,65 @@
 import React, { Component, PropTypes } from 'react'
 import PasswordList from './PasswordList'
 
+let keyCodes = {
+  ARROWUP: 38,
+  ARROWDOWN: 40,
+  ENTER: 13
+}
+
 export default class PasswordSelector extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      filter: ''
+      filter: '',
+      selectedIndex: 0
     }
 
     this.handleFilter = this.handleFilter.bind(this)
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this)
+    this.getFilteredPasswords = this.getFilteredPasswords.bind(this)
   }
 
   handleFilter () {
     this.setState({
-      filter: this.refs.filter.getDOMNode().value
-    });
+      filter: this.refs.filter.getDOMNode().value,
+      selectedIndex: 0
+    })
+  }
+
+  getFilteredPasswords () {
+    const { filter } = this.state
+    let regexFilter = new RegExp(filter)
+    return this.props.passwords.filter(entry => {
+      return regexFilter.test(entry.title)
+    })
   }
 
   handleOnKeyDown (e) {
-    // 40: Arrow Down
-    // 38: Arrow Up
+    const { selectedIndex } = this.state
+
+    if (e.keyCode === keyCodes.ARROWUP) {
+      if (!(selectedIndex - 1 < 0)) {
+        this.setState({
+          selectedIndex: selectedIndex - 1
+        })
+      }
+    } else if (e.keyCode === keyCodes.ARROWDOWN) {
+      if (selectedIndex + 1 < this.getFilteredPasswords().length) {
+        this.setState({
+          selectedIndex: selectedIndex + 1
+        })
+      }
+    } else if (e.keyCode === keyCodes.ENTER) {
+      console.log('select!')
+      e.preventDefault()
+    }
   }
 
   render () {
-    const { passwords } = this.props;
-    const { filter } = this.state;
-
-    let regexFilter = new RegExp(filter)
-    let filteredPasswords = passwords.filter(entry => {
-      return regexFilter.test(entry.title)
-    })
-
-    let selectedIndex = 0
+    const { selectedIndex } = this.state
+    let filteredPasswords = this.getFilteredPasswords()
 
     return (
       <div>
