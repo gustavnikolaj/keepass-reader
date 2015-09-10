@@ -5,9 +5,6 @@ export default class LoginBox extends React.Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  componentDidMount(){
-    React.findDOMNode(this.refs.masterKey).focus()
-  }
   handleSubmit (e) {
     e.preventDefault()
     if (this.props.isSubmitting) return
@@ -19,6 +16,7 @@ export default class LoginBox extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <input type='password'
+               autoFocus
                disabled={this.props.isSubmitting}
                ref='masterKey' />
         <button disabled={this.props.isSubmitting}

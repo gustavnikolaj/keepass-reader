@@ -28,10 +28,6 @@ export default class PasswordSelector extends Component {
     })
   }
 
-  componentDidMount(){
-    React.findDOMNode(this.refs.filter).focus()
-  }
-
   getFilteredPasswords () {
     const { filter } = this.state
     let regexFilter = new RegExp(filter)
@@ -75,6 +71,7 @@ export default class PasswordSelector extends Component {
         <form onSubmit={ this.handleSubmit }>
           <input type='input'
                  ref='filter'
+                 autoFocus
                  onKeyDown={this.handleOnKeyDown}
                  onChange={this.handleFilter} />
         </form>
