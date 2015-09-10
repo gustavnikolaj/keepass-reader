@@ -12,9 +12,12 @@ var appRoot = path.join(projectRoot, 'app');
 module.exports = function(opts) {
 
   console.log('opts')
-  var entry = {
-    main: opts.prerender ? path.join(appRoot, 'app') : path.join(appRoot, 'app')
-  };
+  var entry = [];
+  if (opts.hotComponents) {
+      entry.push('webpack-dev-server/client?http://localhost:3000')
+      entry.push('webpack/hot/only-dev-server')
+  }
+  entry.push(path.join(appRoot, 'app'))
 
 
   var loaders = {
@@ -60,7 +63,7 @@ module.exports = function(opts) {
 
   var modulesDirectories = [ 'node_modules' ];
 
-  var extensions = [ '', '.js', '.jsx', '.json', '.node' ];
+  var extensions = [ '', '.js', '.jsx', '.json' ];
 
   var publicPath = opts.devServer
                  ? 'http://localhost:2992/dist/'

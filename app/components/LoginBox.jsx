@@ -17,7 +17,7 @@ export default class LoginBox extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <input type='password'
                autoFocus
-               placeholder='Type your master key'
+               placeholder='Master Key...'
                disabled={this.props.isSubmitting}
                ref='masterKey' />
         <button disabled={this.props.isSubmitting}
