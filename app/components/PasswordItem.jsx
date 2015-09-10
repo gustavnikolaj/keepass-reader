@@ -5,7 +5,7 @@ export default class PasswordItem extends Component {
     const { title, uuid, isSelected } = this.props
     let selectedStyle = {}
     if (isSelected) {
-      selectedStyle.border = '3px solid red'
+      selectedStyle.border = '3px solid blue'
     }
     return (
       <div className="passwordItem" style={ selectedStyle }>
