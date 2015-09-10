@@ -26,7 +26,6 @@
     "electron-prebuilt": "0.31.2",
     "electron-rebuild": "1.0.0",
     "github-latest-release": "0.1.1",
-    "loaders-by-extension": "1.0.0",
     "minimist": "1.2.0",
     "mocha": "2.3.0",
     "node-libs-browser": ">= 0.4.0 <=0.6.0",

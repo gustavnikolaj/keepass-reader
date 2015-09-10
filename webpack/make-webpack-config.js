@@ -1,7 +1,6 @@
 /* eslint func-names: 0 */
 var webpack = require('webpack');
 var path = require('path');
-var loadersByExtension = require('loaders-by-extension');
 var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 
 var projectRoot = path.join(__dirname, '..');
