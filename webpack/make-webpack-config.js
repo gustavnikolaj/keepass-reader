@@ -1,8 +1,6 @@
 /* eslint func-names: 0 */
 var webpack = require('webpack');
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var StatsPlugin = require('stats-webpack-plugin');
 var loadersByExtension = require('loaders-by-extension');
 var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 
@@ -11,7 +9,6 @@ var appRoot = path.join(projectRoot, 'app');
 
 module.exports = function(opts) {
 
-  console.log('opts')
   var entry = [];
   if (opts.hotComponents) {
       entry.push('webpack-dev-server/client?http://localhost:3000')
@@ -25,18 +22,10 @@ module.exports = function(opts) {
     'js': {
       loader: 'babel-loader',
       include: appRoot
-    },
-    'json': 'json-loader',
-    'txt': 'raw-loader',
-    'png|jpg|jpeg|gif|svg': 'url-loader?limit=10000',
-    'woff|woff2': 'url-loader?limit=100000',
-    'ttf|eot': 'file-loader',
-    'wav|mp3': 'file-loader',
-    'html': 'html-loader',
-    'md|markdown': [ 'html-loader', 'markdown-loader' ]
+    }
   };
 
-  var cssLoader = opts.minimize ? 'css-loader' : 'css-loader?localIdentName=[path][name]---[local]---[hash:base64:5]';
+  var cssLoader = 'css-loader?localIdentName=[path][name]---[local]---[hash:base64:5]';
 
   var stylesheetLoaders = {
     'css': cssLoader,
@@ -88,79 +77,18 @@ module.exports = function(opts) {
     new webpack.PrefetchPlugin('react/lib/ReactComponentBrowserEnvironment')
   ];
 
-  if (opts.prerender) {
-    plugins.push(new StatsPlugin(path.join(projectRoot, 'dist', 'stats.prerender.json'), {
-      chunkModules: true,
-      exclude: excludeFromStats
-    }));
-    aliasLoader['react-proxy$'] = 'react-proxy/unavailable';
-    aliasLoader['react-proxy-loader$'] = 'react-proxy-loader/unavailable';
-    externals.push(
-      /^react(\/.*)?$/,
-      /^reflux(\/.*)?$/,
-      'superagent',
-      'async'
-    );
-    plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
-  } else {
-    plugins.push(new StatsPlugin(path.join(projectRoot, 'dist', 'stats.json'), {
-      chunkModules: true,
-      exclude: excludeFromStats
-    }));
-  }
-
-  if (opts.commonsChunk) {
-    plugins.push(new webpack.optimize.CommonsChunkPlugin('commons', 'commons.js' + (opts.longTermCaching && !opts.prerender ? '?[chunkhash]' : '')));
-  }
-
   Object.keys(stylesheetLoaders).forEach(function(ext) {
     var stylesheetLoader = stylesheetLoaders[ext];
     if (Array.isArray(stylesheetLoader)) stylesheetLoader = stylesheetLoader.join('!');
-    if (opts.prerender) {
-      stylesheetLoaders[ext] = stylesheetLoader.replace(/^css-loader/, 'css-loader/locals');
-    } else if (opts.separateStylesheet) {
-      stylesheetLoaders[ext] = ExtractTextPlugin.extract('style-loader', stylesheetLoader);
-    } else {
-      stylesheetLoaders[ext] = 'style-loader!' + stylesheetLoader;
-    }
+    stylesheetLoaders[ext] = 'style-loader!' + stylesheetLoader;
   });
-
-  if (opts.separateStylesheet && !opts.prerender) {
-    plugins.push(new ExtractTextPlugin('[name].css' + (opts.longTermCaching ? '?[contenthash]' : '')));
-  }
-
-  if (opts.minimize && !opts.prerender) {
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          warnings: false
-        }
-      }),
-      new webpack.optimize.DedupePlugin()
-    );
-  }
-
-  if (opts.minimize) {
-    plugins.push(
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: "'production'"
-        }
-      }),
-      new webpack.NoErrorsPlugin()
-    );
-  }
-
-  externals.push(
-    // put your node 3rd party libraries which can't be built with webpack here (mysql, mongodb, and so on..)
-  );
 
   var options = {
     entry: entry,
     output: output,
     externals: externals,
     module: {
-      loaders: [].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders)).concat(additionalLoaders)
+      loaders: [].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders))
     },
     devtool: opts.devtool,
     debug: opts.debug,
@@ -181,8 +109,6 @@ module.exports = function(opts) {
   };
 
   options.target = webpackTargetElectronRenderer(options);
-
-console.log('options', options)
 
   return options;
 };
