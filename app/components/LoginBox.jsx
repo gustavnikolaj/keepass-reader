@@ -5,6 +5,9 @@ export default class LoginBox extends React.Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
+  componentDidMount(){
+    React.findDOMNode(this.refs.masterKey).focus()
+  }
   handleSubmit (e) {
     e.preventDefault()
     if (this.props.isSubmitting) return
