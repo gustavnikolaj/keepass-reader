@@ -29,53 +29,8 @@ module.exports = function(opts) {
 
   var stylesheetLoaders = {
     'css': cssLoader,
-    'less': [ cssLoader, 'less-loader' ],
-    'styl': [ cssLoader, 'stylus-loader' ],
-    'scss|sass': [ cssLoader, 'sass-loader' ]
+    'less': [ cssLoader, 'less-loader' ]
   };
-
-  var additionalLoaders = [
-    // { test: /some-reg-exp$/, loader: 'any-loader' }
-  ];
-
-  var alias = {
-
-  };
-
-  var aliasLoader = {
-
-  };
-
-  var externals = [
-
-  ];
-
-  var modulesDirectories = [ 'node_modules' ];
-
-  var extensions = [ '', '.js', '.jsx', '.json' ];
-
-  var publicPath = opts.devServer
-                 ? 'http://localhost:2992/dist/'
-                 : '/dist/';
-
-
-  var output = {
-    path: projectRoot + '/dist/',
-    filename: 'bundle.js',
-    publicPath: publicPath,
-    contentBase: projectRoot + '/dist/',
-    libraryTarget: 'commonjs2'
-  };
-
-  var excludeFromStats = [
-    /node_modules[\\\/]react(-router)?[\\\/]/
-  ];
-
-
-  var plugins = [
-    new webpack.PrefetchPlugin('react'),
-    new webpack.PrefetchPlugin('react/lib/ReactComponentBrowserEnvironment')
-  ];
 
   Object.keys(stylesheetLoaders).forEach(function(ext) {
     var stylesheetLoader = stylesheetLoaders[ext];
@@ -85,8 +40,13 @@ module.exports = function(opts) {
 
   var options = {
     entry: entry,
-    output: output,
-    externals: externals,
+    output: {
+      path: projectRoot + '/dist/',
+      filename: 'bundle.js',
+      publicPath: opts.devServer ? 'http://localhost:2992/dist/' : '/dist/',
+      contentBase: projectRoot + '/dist/',
+      libraryTarget: 'commonjs2'
+    },
     module: {
       loaders: [].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders))
     },
@@ -94,16 +54,20 @@ module.exports = function(opts) {
     debug: opts.debug,
     resolve: {
       root: appRoot,
-      modulesDirectories: modulesDirectories,
-      extensions: extensions,
-      alias: alias,
+      modulesDirectories: [ 'node_modules' ],
+      extensions: [ '', '.js', '.jsx', '.json' ],
       packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
     },
-    plugins: plugins,
+    plugins: [
+      new webpack.PrefetchPlugin('react'),
+      new webpack.PrefetchPlugin('react/lib/ReactComponentBrowserEnvironment')
+    ],
     devServer: {
       stats: {
         cached: false,
-        exclude: excludeFromStats
+        exclude: [
+          /node_modules[\\\/]react(-router)?[\\\/]/
+        ]
       }
     }
   };
