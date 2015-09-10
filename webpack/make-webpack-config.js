@@ -16,27 +16,16 @@ module.exports = function(opts) {
   }
   entry.push(path.join(appRoot, 'app'))
 
+  var jsxLoader = {
+    test: /\.jsx$/,
+    include: appRoot
+  }
 
-  var loaders = {
-    'jsx': opts.hotComponents ? [ 'react-hot', 'babel-loader' ] : 'babel-loader',
-    'js': {
-      loader: 'babel-loader',
-      include: appRoot
-    }
-  };
-
-  var cssLoader = 'css-loader?localIdentName=[path][name]---[local]---[hash:base64:5]';
-
-  var stylesheetLoaders = {
-    'css': cssLoader,
-    'less': [ cssLoader, 'less-loader' ]
-  };
-
-  Object.keys(stylesheetLoaders).forEach(function(ext) {
-    var stylesheetLoader = stylesheetLoaders[ext];
-    if (Array.isArray(stylesheetLoader)) stylesheetLoader = stylesheetLoader.join('!');
-    stylesheetLoaders[ext] = 'style-loader!' + stylesheetLoader;
-  });
+  if (opts.hotComponents) {
+    jsxLoader.loaders = [ 'react-hot', 'babel' ]
+  } else {
+    jsxLoader.loader = 'babel'
+  }
 
   var options = {
     entry: entry,
@@ -48,7 +37,14 @@ module.exports = function(opts) {
       libraryTarget: 'commonjs2'
     },
     module: {
-      loaders: [].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders))
+      loaders: [
+        jsxLoader,
+        {
+          test: /\.js$/,
+          loader: 'babel',
+          include: appRoot
+        }
+      ]
     },
     devtool: opts.devtool,
     debug: opts.debug,
