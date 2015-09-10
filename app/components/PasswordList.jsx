@@ -8,6 +8,7 @@ export default class PasswordList extends Component {
       let isSelected = i === selectedIndex
       return (
         <PasswordItem uuid={password.uuid}
+                      key={password.uuid}
                       title={password.title}
                       isSelected={isSelected} />
       );
