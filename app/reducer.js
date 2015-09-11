@@ -13,6 +13,7 @@ import {
 const initialState = {
   isUnlocked: false,
   isUnlocking: false,
+  path: '',
   passwordOnClipboard: false,
   isFetchingPasswordList: false,
   passwordList: []
