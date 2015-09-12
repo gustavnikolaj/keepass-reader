@@ -8,7 +8,7 @@ var latest = require('github-latest-release')
 var argv = require('minimist')(process.argv.slice(2))
 var devDeps = Object.keys(require('./package.json').devDependencies)
 
-var appName = argv.name || argv.n || 'ElectronReact'
+var appName = 'keepass-menubar'
 var shouldUseAsar = argv.asar || argv.a || false
 var shouldBuildAll = argv.all || false
 
