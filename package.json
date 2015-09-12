@@ -12,8 +12,8 @@
     "start": "electron .",
     "start-dev": "NODE_ENV=development electron .",
     "start-hot": "HOT=1 NODE_ENV=development electron .",
-    "package": "node package.js",
-    "package-all": "node package.js --all"
+    "package": "node tools/package.js",
+    "package-all": "node tools/package.js --all"
   },
   "author": "Gustav Nikolaj Olsen <gustavnikolaj@gmail.com>",
   "license": "ISC",

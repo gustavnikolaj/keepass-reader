@@ -1,23 +1,24 @@
 var os = require('os')
 var webpack = require('webpack')
-var cfg = require('./webpack/webpack.config.production.js')
+var cfg = require('../webpack/webpack.config.production.js')
 var packager = require('electron-packager')
 var assign = require('object-assign')
 var del = require('del')
 var latest = require('github-latest-release')
 var argv = require('minimist')(process.argv.slice(2))
-var devDeps = Object.keys(require('./package.json').devDependencies)
+var devDeps = Object.keys(require('../package.json').devDependencies)
+var path = require('path')
 
 var appName = 'keepass-menubar'
 var shouldUseAsar = argv.asar || argv.a || false
 var shouldBuildAll = argv.all || false
 
 var DEFAULT_OPTS = {
-  dir: './',
+  dir: path.resolve(__dirname, '..'),
   name: appName,
   asar: shouldUseAsar,
   ignore: [
-    '/test($|/)',
+    '/webpack($|/)',
     '/tools($|/)',
     '/release($|/)'
   ].concat(devDeps.map(function (name) { return '/node_modules/' + name + '($|/)' }))
