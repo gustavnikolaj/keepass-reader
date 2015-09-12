@@ -2,7 +2,7 @@
   "name": "@gustavnikolaj/keepass-menubar",
   "version": "0.0.0",
   "description": "Keepass 2 Read-only GUI",
-  "main": "main.js",
+  "main": "main/index.js",
   "scripts": {
     "test": "mocha",
     "lint": "standard",

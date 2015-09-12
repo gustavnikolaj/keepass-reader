@@ -13,15 +13,16 @@ var WINDOW_MODE_MENUBAR = WINDOW_MODE === 'menubar'
 var WINDOW_MODE_FIXED = WINDOW_MODE === 'fixed'
 
 var menuBarOpts = {
-  dir: __dirname + '/app',
+  dir: path.resolve(__dirname, '..', 'app'),
   // width: 400,
   // height: 175,
   width: 500,
   height: 500,
   x: 0,
-  y: 0,
-  icon: __dirname + '/app/Icon-Template.png'
+  y: 0
 }
+
+menuBarOpts.icon = path.resolve(menuBarOpts.dir, 'Icon-Template.png')
 
 if (process.env.NODE_ENV === 'development') {
   menuBarOpts.index = 'file://' + path.join(menuBarOpts.dir, 'index-dev.html')
