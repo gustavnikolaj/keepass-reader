@@ -43,6 +43,7 @@
     "menubar": "2.1.2",
     "mkdirp": "0.5.1",
     "passerror": "1.1.0",
+    "radium": "0.13.8",
     "react": "0.13.3",
     "react-redux": "2.0.0",
     "redux": "2.0.0",

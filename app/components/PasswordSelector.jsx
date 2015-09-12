@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import PasswordList from './PasswordList'
+import Radium from 'radium'
 
 let keyCodes = {
   ARROWUP: 38,
   ARROWDOWN: 40
 }
 
-export default class PasswordSelector extends Component {
+class PasswordSelector extends Component {
   constructor (props) {
     super(props)
 
@@ -68,15 +69,18 @@ export default class PasswordSelector extends Component {
 
     return (
       <div>
-        <form onSubmit={ this.handleSubmit }>
+        <form onSubmit={ this.handleSubmit } style={ styles.inputContainer }>
           <input type='input'
                  ref='filter'
                  autoFocus
+                 style={ styles.inputWide }
                  onKeyDown={this.handleOnKeyDown}
                  onChange={this.handleFilter} />
         </form>
-        <PasswordList passwords={ filteredPasswords }
-                      selectedIndex= { selectedIndex } />
+        <div style={ styles.passwordList }>
+          <PasswordList passwords={ filteredPasswords }
+                        selectedIndex= { selectedIndex } />
+        </div>
       </div>
     )
   }
@@ -86,3 +90,33 @@ PasswordSelector.propTypes = {
   passwords: PropTypes.array,
   copyPassword: PropTypes.function
 }
+
+var styles = {
+  inputWide: {
+    display: 'block',
+    borderRadius: 5,
+    border: '1px solid #ddd',
+    outline: 'none',
+    padding: 10,
+    width: '100%',
+    ':focus': {
+      background: '#ffffee'
+    }
+  },
+  inputContainer: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    right: 10
+  },
+  passwordList: {
+    position: 'absolute',
+    top: 60,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'auto'
+  }
+}
+
+export default Radium(PasswordSelector)
