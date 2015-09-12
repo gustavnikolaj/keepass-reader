@@ -39,7 +39,7 @@ var styles = {
     paddingRight: 10,
     paddingBottom: 5,
     paddingLeft: 10,
-    margin: 5
+    margin: 10
   },
   title: {
     fontWeight: 'bold'

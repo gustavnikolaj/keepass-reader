@@ -111,7 +111,7 @@ var styles = {
   },
   passwordList: {
     position: 'absolute',
-    top: 60,
+    top: 50,
     left: 0,
     right: 0,
     bottom: 0,
