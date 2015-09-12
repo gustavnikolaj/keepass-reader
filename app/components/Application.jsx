@@ -6,6 +6,7 @@ import ClipboardScreen from './ClipboardScreen'
 import { connect } from 'react-redux'
 
 import fetchPasswordList from '../actions/fetchPasswordList'
+import requestPathDialog from '../actions/requestPathDialog'
 import copyPassword from '../actions/copyPassword'
 
  class Application extends Component {
@@ -30,6 +31,7 @@ import copyPassword from '../actions/copyPassword'
       dispatch,
       isUnlocked,
       isUnlocking,
+      path,
       passwordOnClipboard,
       isFetchingPasswordList,
       passwordList
@@ -52,7 +54,9 @@ import copyPassword from '../actions/copyPassword'
     } else {
       return (
         <LoginBox submitMasterKey={ key => dispatch(fetchPasswordList(key)) }
-                  isSubmitting={isUnlocking} />
+                  requestPathDialog={ () => dispatch(requestPathDialog()) }
+                  path= { path }
+                  isSubmitting={ isUnlocking } />
       )
     }
   }
@@ -61,6 +65,7 @@ import copyPassword from '../actions/copyPassword'
 Application.propTypes = {
   isUnlocked: PropTypes.bool,
   isUnlocking: PropTypes.bool,
+  path: PropTypes.string,
   passwordOnClipboard: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool

@@ -7,12 +7,14 @@ import {
   REQUEST_PASSWORD_LIST,
   RECEIVE_PASSWORD_LIST,
   PASSWORD_COPIED_TO_CLIPBOARD,
-  CLIPBOARD_EMPTIED
+  CLIPBOARD_EMPTIED,
+  SET_PATH
 } from './actions/types.js'
 
 const initialState = {
   isUnlocked: false,
   isUnlocking: false,
+  path: '',
   passwordOnClipboard: false,
   isFetchingPasswordList: false,
   passwordList: []
@@ -20,6 +22,11 @@ const initialState = {
 
 export default function reducer (state = initialState, action) {
   switch (action.type) {
+    case SET_PATH:
+      return {
+        ...state,
+        path: action.path
+      }
     case UNLOCK_DATABASE_SUBMIT:
       return {
         ...state,

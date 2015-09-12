@@ -13,14 +13,23 @@ export default class LoginBox extends React.Component {
     this.props.submitMasterKey(masterKey)
   }
   render () {
+    let { path, isSubmitting, requestPathDialog } = this.props
     return (
       <form onSubmit={this.handleSubmit}>
+        <div>
+          <input type='text'
+                 disabled
+                 value={ path }
+                 placeholder='Path to .kdbx'
+                 ref='path' />
+          <button type='button' onClick={ requestPathDialog }>...</button>
+        </div>
         <input type='password'
                autoFocus
                placeholder='Master key...'
-               disabled={this.props.isSubmitting}
+               disabled={ isSubmitting }
                ref='masterKey' />
-        <button disabled={this.props.isSubmitting}
+        <button disabled={ isSubmitting }
                 type="submit">Unlock!</button>
       </form>
     )
@@ -29,5 +38,7 @@ export default class LoginBox extends React.Component {
 
 LoginBox.propTypes = {
   submitMasterKey: PropTypes.function,
+  requestPathDialog: PropTypes.function,
+  path: PropTypes.string,
   isSubmitting: PropTypes.boolean
 }
