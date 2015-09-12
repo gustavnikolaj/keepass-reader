@@ -4,6 +4,7 @@ var ipc = require('ipc')
 var path = require('path')
 var dialog = require('dialog')
 var KeepassClient = require('./lib/keepassClient')
+var AppDataClient = require('./lib/appDataClient')
 
 require('electron-debug')();
 require('crash-reporter').start();
@@ -36,6 +37,10 @@ function openApplication () {
 }
 
 var keepassClient = new KeepassClient();
+var appDataClient = new AppDataClient({
+  appDataPath: mb.app.getPath('appData'),
+  appName: 'keepass-menubar'
+})
 
 mb.app.on('ready', function () {
   if (!globalShortcut.register('ctrl+shift+space', openApplication)) {
@@ -90,8 +95,12 @@ ipc.on('passwordListRequest', function (event, masterKey) {
 })
 
 ipc.on('pathRequest', function (event) {
-  var path = keepassClient.path()
-  return event.sender.send('pathResponse', { path })
+  appDataClient.get('keepassDatabasePath', function (err, databasePath) {
+    if (databasePath !== keepassClient.path()) {
+      keepassClient.path(databasePath)
+    }
+    return event.sender.send('pathResponse', { path: databasePath })
+  })
 })
 
 ipc.on('pathDialogRequest', function (event) {
@@ -113,7 +122,8 @@ ipc.on('pathDialogRequest', function (event) {
     path = null
   }
 
-  keepassClient.path(path)
-
-  return event.sender.send('pathDialogResponse', { path })
+  appDataClient.set('keepassDatabasePath', path, function () {
+    keepassClient.path(path)
+    return event.sender.send('pathDialogResponse', { path: path })
+  })
 })
