@@ -1,3 +1,6 @@
 node_modules
 dist
 release
+coverage
+app/coverage
+main/coverage
