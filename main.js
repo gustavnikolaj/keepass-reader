@@ -9,6 +9,10 @@ var AppDataClient = require('./lib/appDataClient')
 require('electron-debug')();
 require('crash-reporter').start();
 
+var WINDOW_MODE = process.env.MENUBAR === 'false' ? 'fixed' : 'menubar'
+var WINDOW_MODE_MENUBAR = WINDOW_MODE === 'menubar'
+var WINDOW_MODE_FIXED = WINDOW_MODE === 'fixed'
+
 var menuBarOpts = {
   dir: __dirname + '/app',
   //width: 400,
@@ -26,14 +30,13 @@ if (process.env.NODE_ENV === 'development') {
   menuBarOpts.index = 'file://' + path.join(menuBarOpts.dir, 'index.html')
 }
 
-// var mb = menubar(menuBarOpts)
-
-var mb = { /* replaces menubar(menuBarOpts) call */
-  app: require('app')
-};
-
-function openApplication () {
-  mb.tray.emit('clicked', {}, { x: 0, y: 0 })
+var mb
+if (WINDOW_MODE_MENUBAR) {
+  mb = menubar(menuBarOpts)
+} else {
+  mb = { /* replaces menubar(menuBarOpts) call */
+    app: require('app')
+  }
 }
 
 var keepassClient = new KeepassClient();
@@ -42,24 +45,41 @@ var appDataClient = new AppDataClient({
   appName: 'keepass-menubar'
 })
 
-mb.app.on('ready', function () {
-  if (!globalShortcut.register('ctrl+shift+space', openApplication)) {
-    throw new Error('Could not register shortcut to open application.')
+function registerShortcut () {
+  if (WINDOW_MODE_MENUBAR) {
+    function openApplication () {
+      mb.tray.emit('clicked', {}, { x: 0, y: 0 })
+    }
+    if (!globalShortcut.register('ctrl+shift+space', openApplication)) {
+      throw new Error('Could not register shortcut to open application.')
+    }
   }
-  /* replaces menubar(menuBarOpts) call */
-  mb.window = new (require('browser-window'))({
-    show: true
-  })
-  mb.window.loadUrl(menuBarOpts.index)
-  /***/
+}
 
-  if (process.env.NODE_ENV === 'development') {
-    mb.window.openDevTools();
+function unregisterShortcut() {
+  globalShortcut.unregisterAll()
+}
+
+function maybeOpenFixedWindow () {
+  if (WINDOW_MODE_FIXED) {
+    mb.window = new (require('browser-window'))({
+      show: true
+    })
+    mb.window.loadUrl(menuBarOpts.index)
+
+    if (process.env.NODE_ENV === 'development') {
+      mb.window.openDevTools();
+    }
   }
+}
+
+mb.app.on('ready', function () {
+  registerShortcut()
+  maybeOpenFixedWindow()
 })
 
 mb.app.on('will-quit', function () {
-  globalShortcut.unregisterAll()
+  unregisterShortcut()
 })
 
 
