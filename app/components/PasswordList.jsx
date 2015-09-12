@@ -11,8 +11,8 @@ export default class PasswordList extends Component {
                       key={password.uuid}
                       title={password.title}
                       isSelected={isSelected} />
-      );
-    });
+      )
+    })
 
     return (
       <div>

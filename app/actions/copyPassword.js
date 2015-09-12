@@ -17,7 +17,7 @@ export default function copyPassword (uuid) {
         console.log('copying', response.password, 'to clipboard')
         dispatch(passwordCopiedToClipboard(uuid))
         setTimeout(function () {
-          dispatch(clipboardEmptied());
+          dispatch(clipboardEmptied())
         }, 1000)
       }
     })

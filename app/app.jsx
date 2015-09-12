@@ -1,7 +1,6 @@
 import React from 'react'
 import Application from './components/Application.jsx'
-import ipc from 'ipc'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, /* combineReducers, */ applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import { Provider } from 'react-redux'

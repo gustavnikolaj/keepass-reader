@@ -9,7 +9,7 @@ import fetchPasswordList from '../actions/fetchPasswordList'
 import requestPathDialog from '../actions/requestPathDialog'
 import copyPassword from '../actions/copyPassword'
 
- class Application extends Component {
+class Application extends Component {
   constructor (props) {
     super(props)
 
@@ -33,7 +33,6 @@ import copyPassword from '../actions/copyPassword'
       isUnlocking,
       path,
       passwordOnClipboard,
-      isFetchingPasswordList,
       passwordList
     } = this.props
 
@@ -63,6 +62,7 @@ import copyPassword from '../actions/copyPassword'
 }
 
 Application.propTypes = {
+  dispatch: PropTypes.function,
   isUnlocked: PropTypes.bool,
   isUnlocking: PropTypes.bool,
   path: PropTypes.string,
@@ -70,7 +70,6 @@ Application.propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  isFetchingPasswordList: PropTypes.bool,
   passwordList: PropTypes.array
 }
 

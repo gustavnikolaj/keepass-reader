@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-export default class LoginBox extends React.Component {
+export default class LoginBox extends Component {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,7 +30,7 @@ export default class LoginBox extends React.Component {
                disabled={ isSubmitting }
                ref='masterKey' />
         <button disabled={ isSubmitting }
-                type="submit">Unlock!</button>
+                type='submit'>Unlock!</button>
       </form>
     )
   }

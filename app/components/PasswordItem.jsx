@@ -8,8 +8,8 @@ export default class PasswordItem extends Component {
       selectedStyle.border = '3px solid blue'
     }
     return (
-      <div className="passwordItem" style={ selectedStyle }>
-        <h2 className="passwordItem-title">
+      <div className='passwordItem' style={ selectedStyle }>
+        <h2 className='passwordItem title'>
           {title}
         </h2>
         <i>{uuid}</i>

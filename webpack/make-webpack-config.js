@@ -1,17 +1,15 @@
-/* eslint func-names: 0 */
-var webpack = require('webpack');
-var path = require('path');
-var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
+var webpack = require('webpack')
+var path = require('path')
+var webpackTargetElectronRenderer = require('webpack-target-electron-renderer')
 
-var projectRoot = path.join(__dirname, '..');
-var appRoot = path.join(projectRoot, 'app');
+var projectRoot = path.join(__dirname, '..')
+var appRoot = path.join(projectRoot, 'app')
 
-module.exports = function(opts) {
-
-  var entry = [];
+module.exports = function (opts) {
+  var entry = []
   if (opts.hotComponents) {
-      entry.push('webpack-dev-server/client?http://localhost:3000')
-      entry.push('webpack/hot/only-dev-server')
+    entry.push('webpack-dev-server/client?http://localhost:3000')
+    entry.push('webpack/hot/only-dev-server')
   }
   entry.push(path.join(appRoot, 'app'))
 
@@ -65,9 +63,9 @@ module.exports = function(opts) {
         ]
       }
     }
-  };
+  }
 
-  options.target = webpackTargetElectronRenderer(options);
+  options.target = webpackTargetElectronRenderer(options)
 
-  return options;
-};
+  return options
+}

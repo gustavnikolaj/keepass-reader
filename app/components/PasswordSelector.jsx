@@ -83,5 +83,6 @@ export default class PasswordSelector extends Component {
 }
 
 PasswordSelector.propTypes = {
-  passwords: PropTypes.array
+  passwords: PropTypes.array,
+  copyPassword: PropTypes.function
 }
