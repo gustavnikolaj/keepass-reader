@@ -2,6 +2,7 @@ var menubar = require('menubar')
 var globalShortcut = require('global-shortcut')
 var ipc = require('ipc')
 var path = require('path')
+var dialog = require('dialog')
 var KeepassClient = require('./lib/keepassClient')
 
 require('electron-debug')();
@@ -34,7 +35,7 @@ function openApplication () {
   mb.tray.emit('clicked', {}, { x: 0, y: 0 })
 }
 
-var keepassClient = new KeepassClient('./TestDatabase.kdbx');
+var keepassClient = new KeepassClient();
 
 mb.app.on('ready', function () {
   if (!globalShortcut.register('ctrl+shift+space', openApplication)) {
@@ -86,4 +87,33 @@ ipc.on('passwordListRequest', function (event, masterKey) {
       passwords
     })
   })
+})
+
+ipc.on('pathRequest', function (event) {
+  var path = keepassClient.path()
+  return event.sender.send('pathResponse', { path })
+})
+
+ipc.on('pathDialogRequest', function (event) {
+  var path = dialog.showOpenDialog({
+    defaultPath: process.env.HOME,
+    title: 'Select your kdbx database',
+    filters: [
+      {
+        name: 'Keepass 2 Databases (.kdbx)',
+        extensions: [ 'kdbx' ]
+      }
+    ],
+    properties: [ 'openFile' ]
+  })
+
+  if (path && path.length === 1) {
+    path = path[0]
+  } else {
+    path = null
+  }
+
+  keepassClient.path(path)
+
+  return event.sender.send('pathDialogResponse', { path })
 })

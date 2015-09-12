@@ -30,7 +30,7 @@ export default class PasswordSelector extends Component {
 
   getFilteredPasswords () {
     const { filter } = this.state
-    let regexFilter = new RegExp(filter)
+    let regexFilter = new RegExp(filter, 'i')
     return this.props.passwords.filter(entry => {
       return regexFilter.test(entry.title)
     })

@@ -7,6 +7,7 @@ import createLogger from 'redux-logger'
 import { Provider } from 'react-redux'
 
 import fetchPasswordList from './actions/fetchPasswordList'
+import requestPath from './actions/requestPath'
 
 const loggerMiddleware = createLogger({
   collapsed: true,
@@ -21,8 +22,9 @@ const createStoreWithMiddleware = applyMiddleware(
 import reducer from './reducer'
 
 let store = createStoreWithMiddleware(reducer)
-
-store.dispatch(fetchPasswordList())
+store.dispatch(requestPath(function () {
+  store.dispatch(fetchPasswordList())
+}))
 
 let rootElement = document.getElementById('application')
 

@@ -13,7 +13,7 @@ export default class LoginBox extends React.Component {
     this.props.submitMasterKey(masterKey)
   }
   render () {
-    let { path, isSubmitting, requestPath } = this.props
+    let { path, isSubmitting, requestPathDialog } = this.props
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -22,7 +22,7 @@ export default class LoginBox extends React.Component {
                  value={ path }
                  placeholder='Path to .kdbx'
                  ref='path' />
-          <button onClick={ requestPath }>...</button>
+          <button type='button' onClick={ requestPathDialog }>...</button>
         </div>
         <input type='password'
                autoFocus
@@ -38,7 +38,7 @@ export default class LoginBox extends React.Component {
 
 LoginBox.propTypes = {
   submitMasterKey: PropTypes.function,
-  requestPath: PropTypes.function,
+  requestPathDialog: PropTypes.function,
   path: PropTypes.string,
   isSubmitting: PropTypes.boolean
 }
