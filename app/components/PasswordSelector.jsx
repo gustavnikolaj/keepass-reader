@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { HotKeys } from 'react-hotkeys'
 import PasswordList from './PasswordList'
 import Radium from 'radium'
 
@@ -18,7 +19,6 @@ class PasswordSelector extends Component {
     }
 
     this.handleFilter = this.handleFilter.bind(this)
-    this.handleOnKeyDown = this.handleOnKeyDown.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.getFilteredPasswords = this.getFilteredPasswords.bind(this)
   }
@@ -45,24 +45,29 @@ class PasswordSelector extends Component {
     this.props.copyPassword(uuid)
   }
 
-  handleOnKeyDown (e) {
-    const { selectedIndex } = this.state
-
-    if (e.keyCode === keyCodes.ARROWUP) {
-      if (!(selectedIndex - 1 < 0)) {
-        this.setState({
-          selectedIndex: selectedIndex - 1
-        })
-      }
-    } else if (e.keyCode === keyCodes.ARROWDOWN) {
-      if (selectedIndex + 1 < this.getFilteredPasswords().length) {
-        this.setState({
-          selectedIndex: selectedIndex + 1
-        })
-      }
-    } else if (e.keyCode === keyCodes.ESCAPE) {
+  handleEscape (e) {
+    if (this.state.filter) {
       this.refs.filter.getDOMNode().value = ''
       this.handleFilter()
+      e.stopPropagation()
+    }
+  }
+
+  handleArrowUp (e) {
+    const { selectedIndex } = this.state
+    if (!(selectedIndex - 1 < 0)) {
+      this.setState({
+        selectedIndex: selectedIndex - 1
+      })
+    }
+  }
+
+  handleArrowDown (e) {
+    const { selectedIndex } = this.state
+    if (selectedIndex + 1 < this.getFilteredPasswords().length) {
+      this.setState({
+        selectedIndex: selectedIndex + 1
+      })
     }
   }
 
@@ -70,21 +75,28 @@ class PasswordSelector extends Component {
     const { selectedIndex } = this.state
     let filteredPasswords = this.getFilteredPasswords()
 
+    const handlers = {
+      'esc': this.handleEscape.bind(this),
+      'up': this.handleArrowUp.bind(this),
+      'down': this.handleArrowDown.bind(this)
+    }
+
     return (
-      <div>
-        <form onSubmit={ this.handleSubmit } style={ styles.inputContainer }>
-          <input type='input'
-                 ref='filter'
-                 autoFocus
-                 style={ styles.inputWide }
-                 onKeyDown={this.handleOnKeyDown}
-                 onChange={this.handleFilter} />
-        </form>
-        <div style={ styles.passwordList }>
-          <PasswordList passwords={ filteredPasswords }
-                        selectedIndex= { selectedIndex } />
+      <HotKeys keyMap={{}} handlers={ handlers }>
+        <div>
+          <form onSubmit={ this.handleSubmit } style={ styles.inputContainer }>
+            <input type='input'
+                   ref='filter'
+                   autoFocus
+                   style={ styles.inputWide }
+                   onChange={this.handleFilter} />
+          </form>
+          <div style={ styles.passwordList }>
+            <PasswordList passwords={ filteredPasswords }
+                          selectedIndex= { selectedIndex } />
+          </div>
         </div>
-      </div>
+      </HotKeys>
     )
   }
 }
