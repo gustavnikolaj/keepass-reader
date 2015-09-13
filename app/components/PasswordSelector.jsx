@@ -4,7 +4,8 @@ import Radium from 'radium'
 
 let keyCodes = {
   ARROWUP: 38,
-  ARROWDOWN: 40
+  ARROWDOWN: 40,
+  ESCAPE: 27
 }
 
 class PasswordSelector extends Component {
@@ -60,6 +61,9 @@ class PasswordSelector extends Component {
           selectedIndex: selectedIndex + 1
         })
       }
+    } else if (e.keyCode === keyCodes.ESCAPE) {
+      this.refs.filter.getDOMNode().value = ''
+      this.handleFilter()
     }
   }
 
