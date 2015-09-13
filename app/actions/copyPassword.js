@@ -13,12 +13,11 @@ export default function copyPassword (uuid) {
       if (response.error) {
         dispatch(unlockDatabaseFailed())
       } else {
-        // copy response.password to clipboard
-        console.log('copying', response.password, 'to clipboard')
+        console.log('clipboard clearing in', response.timeout)
         dispatch(passwordCopiedToClipboard(uuid))
         setTimeout(function () {
           dispatch(clipboardEmptied())
-        }, 1000)
+        }, response.timeout)
       }
     })
 

@@ -3,6 +3,7 @@ var globalShortcut = require('global-shortcut')
 var path = require('path')
 var KeepassClient = require('./lib/keepassClient')
 var AppDataClient = require('./lib/appDataClient')
+var ClipboardClient = require('./lib/clipboardClient')
 var IpcBus = require('./lib/ipcBus')
 
 require('electron-debug')()
@@ -45,9 +46,13 @@ var appDataClient = new AppDataClient({
   appDataPath: mb.app.getPath('appData'),
   appName: 'keepass-menubar'
 })
+var clipboardClient = new ClipboardClient({
+  clipboardModule: require('clipboard')
+})
 
 ipcBus
   .use('password', require('./lib/handlers/password')({
+    clipboardClient: clipboardClient,
     keepassClient: keepassClient
   }))
   .use('passwordList', require('./lib/handlers/passwordList')({

@@ -4,6 +4,9 @@ module.exports = function (options) {
   if (!options.keepassClient) {
     throw new Error('needs options.keepassClient')
   }
+  if (!options.clipboardClient) {
+    throw new Error('needs options.clipboardClient')
+  }
 
   return function (uuid, response) {
     options.keepassClient.getPassword(uuid, function (err, password) {
@@ -11,7 +14,15 @@ module.exports = function (options) {
         return response({ error: 'LOCKED_DATABASE' })
       }
 
-      return response({ password: password })
+      options.clipboardClient.set(password)
+
+      var timeout = 12000
+
+      setTimeout(function () {
+        options.clipboardClient.clear()
+      }, timeout)
+
+      return response({ error: null, timeout: timeout })
     })
   }
 }
