@@ -1,26 +1,15 @@
 import React from 'react'
 import Application from './components/Application.jsx'
-import { createStore, /* combineReducers, */ applyMiddleware } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import createLogger from 'redux-logger'
 import { Provider } from 'react-redux'
 
 import fetchPasswordList from './actions/fetchPasswordList'
 import requestPath from './actions/requestPath'
 
-const loggerMiddleware = createLogger({
-  collapsed: true,
-  predicate: (getState, action) => action.type !== 'AUTH_REMOVE_TOKEN'
-})
-
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware, // lets us dispatch() functions
-  loggerMiddleware // neat middleware that logs actions
-)(createStore)
-
 import reducer from './reducer'
+import createStore from './lib/createStore'
 
-let store = createStoreWithMiddleware(reducer)
+let store = createStore(reducer)
+
 store.dispatch(requestPath(function () {
   store.dispatch(fetchPasswordList())
 }))
