@@ -3,17 +3,27 @@ import Radium from 'radium'
 
 class PasswordItem extends Component {
   render () {
-    const { title, uuid, isSelected } = this.props
+    const { title, uuid, isSelected, username, url } = this.props
     let selectedStyle = {}
     if (isSelected) {
       selectedStyle.border = '3px solid blue'
     }
+
+    let detailItems = [
+      { label: 'Username', data: username },
+      { label: 'URL', data: url }
+    ].filter(entry => { return entry.data !== '' }).map(entry => {
+        return (
+          <div style={ styles.detailItem }>
+            <b>{entry.label}:</b> {entry.data}
+          </div>
+        )
+    });
+
     return (
       <div style={[ styles.base, isSelected && styles.selected ]}>
         <div style={ styles.title }>{title}</div>
-        <div style={ styles.detail }>
-          <i>{uuid}</i>
-        </div>
+        <div style={ styles.detail }>{detailItems}</div>
       </div>
     )
   }
@@ -22,6 +32,8 @@ class PasswordItem extends Component {
 PasswordItem.propTypes = {
   uuid: PropTypes.string,
   title: PropTypes.string,
+  username: PropTypes.string,
+  url: PropTypes.string,
   isSelected: PropTypes.bool
 }
 
@@ -45,7 +57,11 @@ var styles = {
     fontWeight: 'bold'
   },
   detail: {
-    fontSize: '0.75em'
+    fontSize: '0.75em',
+    display: 'flex'
+  },
+  detailItem: {
+    flex: 1
   }
 }
 

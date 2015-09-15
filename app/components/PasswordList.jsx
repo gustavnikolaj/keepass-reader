@@ -10,6 +10,8 @@ export default class PasswordList extends Component {
         <PasswordItem uuid={password.uuid}
                       key={password.uuid}
                       title={password.title}
+                      username={password.username}
+                      url={password.url}
                       isSelected={isSelected} />
       )
     })
