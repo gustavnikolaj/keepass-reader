@@ -12,7 +12,6 @@ export default function copyPassword (uuid) {
       if (response.error) {
         dispatch(unlockDatabaseFailed())
       } else {
-        console.log('clipboard clearing in', response.timeout)
         dispatch(passwordCopiedToClipboard(response.timeout))
       }
     })

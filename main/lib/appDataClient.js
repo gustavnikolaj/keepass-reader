@@ -15,7 +15,6 @@ AppDataClient.prototype.getPath = function () {
 AppDataClient.prototype.get = function (key, callback) {
   var filePath = path.resolve(this.getPath(), key)
   return fs.readFile(filePath, 'utf-8', function (err, data) {
-    console.log('appData response', arguments)
     if (err) {
       console.log(err)
       return callback(null, null)

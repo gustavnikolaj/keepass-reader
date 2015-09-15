@@ -59,7 +59,6 @@ KeepassClient.prototype.getPassword = function (uuid, callback) {
     var password = false
     list.some(function (entry) {
       if (entry.uuid === uuid) {
-        console.log(JSON.stringify(entry))
         password = entry.password
       }
     })

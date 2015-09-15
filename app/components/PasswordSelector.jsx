@@ -41,7 +41,6 @@ class PasswordSelector extends Component {
   handleSubmit (e) {
     e.preventDefault()
     const { selectedIndex } = this.state
-    console.log('select!')
     let uuid = this.getFilteredPasswords()[selectedIndex].uuid
     this.props.copyPassword(uuid)
   }

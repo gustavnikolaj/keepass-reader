@@ -11,7 +11,6 @@ module.exports = function (options) {
     }
     options.keepassClient.getList(function (err, passwords) {
       if (err) {
-        console.log(err)
         return response({ error: 'LOCKED_DATABASE' })
       }
 

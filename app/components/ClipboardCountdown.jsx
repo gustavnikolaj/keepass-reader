@@ -10,8 +10,6 @@ class ClipboardCountdown extends Component {
       remainingPercentage: 0
     })
 
-    console.log('init props', props)
-
     this.componentWillReceiveProps(props)
     this.tick = this.tick.bind(this)
   }
@@ -40,8 +38,6 @@ class ClipboardCountdown extends Component {
 
   render () {
     const { percentage } = this.state
-
-    console.log('rendering with', percentage, 'pct')
 
     if (percentage > 0) {
       let style = {
