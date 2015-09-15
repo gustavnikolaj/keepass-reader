@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 
-class ClipboardScreen extends Component {
+class ClipboardCountdown extends Component {
   constructor (props) {
     super(props)
     this.interval = false
@@ -59,7 +59,7 @@ class ClipboardScreen extends Component {
   }
 }
 
-ClipboardScreen.propTypes = {
+ClipboardCountdown.propTypes = {
   clipboardTimer: PropTypes.obj
 }
 
@@ -80,4 +80,4 @@ var styles = {
   }
 }
 
-export default Radium(ClipboardScreen)
+export default Radium(ClipboardCountdown)
