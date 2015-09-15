@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import LoginBox from './LoginBox'
 import LoadingScreen from './LoadingScreen'
 import PasswordSelector from './PasswordSelector'
-import ClipboardScreen from './ClipboardScreen'
+import ClipboardCountdown from './ClipboardCountdown'
 import { connect } from 'react-redux'
 
 import fetchPasswordList from '../actions/fetchPasswordList'
@@ -10,41 +10,23 @@ import requestPathDialog from '../actions/requestPathDialog'
 import copyPassword from '../actions/copyPassword'
 
 class Application extends Component {
-  constructor (props) {
-    super(props)
-
-    this.getPasswordTitleByUuid = this.getPasswordTitleByUuid.bind(this)
-  }
-
-  getPasswordTitleByUuid (uuid) {
-    let passwordTitle
-    this.props.passwordList.some(entry => {
-      if (entry.uuid === uuid) {
-        passwordTitle = entry.title
-      }
-    })
-    return passwordTitle
-  }
-
   render () {
     const {
       dispatch,
       isUnlocked,
       isUnlocking,
       path,
-      passwordOnClipboard,
+      clipboard,
       passwordList
     } = this.props
 
-    if (passwordOnClipboard) {
-      let title = this.getPasswordTitleByUuid(passwordOnClipboard)
+    if (isUnlocked) {
       return (
-        <ClipboardScreen title={ title } />
-      )
-    } else if (isUnlocked) {
-      return (
-        <PasswordSelector copyPassword={ uuid => dispatch(copyPassword(uuid)) }
-                          passwords={ passwordList } />
+        <div>
+          <ClipboardCountdown clipboardTimer={ clipboard } />
+          <PasswordSelector copyPassword={ uuid => dispatch(copyPassword(uuid)) }
+                            passwords={ passwordList } />
+        </div>
       )
     } else if (isUnlocking) {
       return (
@@ -66,10 +48,7 @@ Application.propTypes = {
   isUnlocked: PropTypes.bool,
   isUnlocking: PropTypes.bool,
   path: PropTypes.string,
-  passwordOnClipboard: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
+  clipboard: PropTypes.obj,
   passwordList: PropTypes.array
 }
 

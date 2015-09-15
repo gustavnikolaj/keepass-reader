@@ -15,7 +15,10 @@ const initialState = {
   isUnlocked: false,
   isUnlocking: false,
   path: '',
-  passwordOnClipboard: false,
+  clipboard: {
+    timeIn: 0,
+    timeOut: 0
+  },
   isFetchingPasswordList: false,
   passwordList: []
 }
@@ -50,12 +53,10 @@ export default function reducer (state = initialState, action) {
     case PASSWORD_COPIED_TO_CLIPBOARD:
       return {
         ...state,
-        passwordOnClipboard: action.uuid
-      }
-    case CLIPBOARD_EMPTIED:
-      return {
-        ...state,
-        passwordOnClipboard: false
+        clipboard: {
+          timeIn: action.timeIn,
+          timeOut: action.timeOut
+        }
       }
     case REQUEST_PASSWORD_LIST:
       return {

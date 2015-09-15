@@ -1,6 +1,5 @@
 import requestPassword from './requestPassword'
 import passwordCopiedToClipboard from './passwordCopiedToClipboard'
-import clipboardEmptied from './clipboardEmptied'
 import unlockDatabaseFailed from './unlockDatabaseFailed'
 
 import ipc from 'ipc'
@@ -14,10 +13,7 @@ export default function copyPassword (uuid) {
         dispatch(unlockDatabaseFailed())
       } else {
         console.log('clipboard clearing in', response.timeout)
-        dispatch(passwordCopiedToClipboard(uuid))
-        setTimeout(function () {
-          dispatch(clipboardEmptied())
-        }, response.timeout)
+        dispatch(passwordCopiedToClipboard(response.timeout))
       }
     })
 
