@@ -1,3 +1,4 @@
+/* global describe, it */
 import React from 'react'
 import { expectForComponents as expect } from '../unexpectedWithAddons'
 import LoadingScreen from '../../components/LoadingScreen'

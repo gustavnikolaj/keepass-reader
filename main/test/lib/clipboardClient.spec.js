@@ -1,10 +1,11 @@
+/* global describe, it */
 var sinon = require('sinon')
 var expect = require('unexpected')
   .clone()
   .use(require('unexpected-sinon'))
 var ClipboardClient = require('../../lib/clipboardClient')
 
-function ClipboardClientFactory(clipboardModule) {
+function ClipboardClientFactory (clipboardModule) {
   clipboardModule = clipboardModule || {}
   return new ClipboardClient({
     clipboardModule: clipboardModule

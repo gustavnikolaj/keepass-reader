@@ -1,3 +1,4 @@
+/* global describe, it */
 import expect from 'unexpected'
 import receivePassword from '../../actions/receivePassword'
 

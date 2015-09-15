@@ -55,7 +55,6 @@ class ClipboardCountdown extends Component {
     } else {
       return <div></div>
     }
-
   }
 }
 

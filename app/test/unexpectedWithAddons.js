@@ -1,7 +1,6 @@
 import unexpected from 'unexpected'
 import unexpectedReactShallow from 'unexpected-react-shallow'
 import React from 'react'
-let TestUtils = React.addons.TestUtils
 
 export var expectForComponents = unexpected
   .clone()

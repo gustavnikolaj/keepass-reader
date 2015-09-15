@@ -3,7 +3,7 @@ var crypto = require('crypto')
 function ClipboardClient (options) {
   options = options || {}
   this.clipboard = options.clipboardModule || require('clipboard')
-  this.hashOfLastSetValue = null;
+  this.hashOfLastSetValue = null
 }
 
 ClipboardClient.prototype.hash = function (value) {
