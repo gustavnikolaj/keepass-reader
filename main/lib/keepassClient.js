@@ -46,6 +46,16 @@ KeepassClient.prototype.load = function (callback) {
 KeepassClient.prototype.getList = function (callback) {
   this.load(passError(callback, function (list) {
     return callback(null, list.map(function (entry) {
+      // TODO PICK MORE PROPS
+      /*
+      {"uuid":"tBhncB/6QEShKw0QgF25Dw==",
+       "notes":"Notes",
+       "password":"Password",
+       "title":"Sample Entry",
+       "url":"http://keepass.info/",
+       "username":"User Name",
+       "meta":{"unique":true}}
+      */
       return {
         uuid: entry.uuid,
         title: entry.title
