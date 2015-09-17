@@ -54,3 +54,52 @@ coverage: app/coverage main/coverage ${APP_FILES} ${MAIN_FILES}
 		main/coverage/coverage.json \
 		> coverage/coverage.json
 	${BABEL_ISTANBUL} report lcov --include coverage/coverage.json
+
+.PRECIOUS: .git/refs/tags/v%
+.git/refs/tags/v%:
+ifneq ($(shell git describe --always --dirty | grep -- -dirty),)
+	$(error Working tree is dirty, please commit or stash your changes, then try again)
+endif
+	perl -pi -e's/"version":\s*"[^"]*"/"version": "'$*'"/g;' package.json
+	git add package.json
+	git commit -m "Release "$*"."
+	git tag v$*
+
+RELEASE_TARGETS=\
+	release/keepass-menubar_%_linux-x64.tar.gz \
+	release/keepass-menubar_%_darwin-x64.tar.gz
+
+.PHONY: release-%
+release-%: ${RELEASE_TARGETS}
+	@echo "Release $1 done"
+
+dist/bundle.js:
+	./node_modules/.bin/webpack \
+		--config webpack/webpack.config.production.js \
+		--progress \
+		--profile \
+		--colors
+
+.PRECIOUS: release/keepass-menubar_%_linux-x64
+release/keepass-menubar_%_linux-x64: .git/refs/tags/v% dist/bundle.js
+	mkdir -p release
+	node tools/build.js \
+		--platform linux \
+		--arch x64 \
+		--out release
+	mv  release/keepass-menubar-linux-x64 \
+		release/keepass-menubar_$*_linux-x64
+
+.PRECIOUS: release/keepass-menubar_%_darwin-x64
+release/keepass-menubar_%_darwin-x64: .git/refs/tags/v%  dist/bundle.js
+	mkdir -p release
+	node tools/build.js \
+		--platform darwin \
+		--arch x64 \
+		--out release
+	mv  release/keepass-menubar-darwin-x64 \
+		release/keepass-menubar_$*_darwin-x64
+
+.PRECIOUS: %.tar.gz
+%.tar.gz: %
+	tar -zcf $*.tar.gz $*
