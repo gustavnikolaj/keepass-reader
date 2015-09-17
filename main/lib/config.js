@@ -1,7 +1,8 @@
 var pathModule = require('path')
+var modes = require('./modes')
 
 module.exports = function (options) {
-  var config = {
+  var menubarOpts = {
     dir: pathModule.resolve(__dirname, '..', '..', 'app'),
     width: 500,
     height: 500,
@@ -9,12 +10,19 @@ module.exports = function (options) {
     y: 0
   }
 
-  config.icon = pathModule.resolve(config.dir, 'Icon-Template.png')
+  menubarOpts.icon = pathModule.resolve(menubarOpts.dir, 'Icon-Template.png')
 
   if (options.nodeEnv === 'development') {
-    config.index = 'file://' + pathModule.join(config.dir, 'index-dev.html')
+    menubarOpts.index = 'file://' + pathModule.join(menubarOpts.dir, 'index-dev.html')
   } else {
-    config.index = 'file://' + pathModule.join(config.dir, 'index.html')
+    menubarOpts.index = 'file://' + pathModule.join(menubarOpts.dir, 'index.html')
+  }
+
+  var mode = options.menubar === 'false' ? modes.FIXED : modes.MENUBAR
+
+  var config = {
+    menubarOpts: menubarOpts,
+    mode: mode
   }
 
   return config
