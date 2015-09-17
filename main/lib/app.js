@@ -61,6 +61,8 @@ App.prototype.unregisterShortcut = function () {
 }
 
 App.prototype.toggleWindow = function () {
+  // this could be done less hacky with mb.(show|hide)Window methods
+  // but that requires us to keep state on wether or not our window is shown.
   if (this.mode === modes.MENUBAR) {
     this.mb.tray.emit('clicked', {}, { x: 0, y: 0 })
   }
