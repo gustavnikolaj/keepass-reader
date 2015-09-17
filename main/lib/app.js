@@ -15,7 +15,7 @@ function App (options) {
 
 App.prototype.init = function () {
   var mb
-  if (this.mode = modes.MENUBAR) {
+  if (this.mode === modes.MENUBAR) {
     mb = menubar(this.options)
   } else {
     mb = { /* replaces menubar(menuBarOpts) call */
@@ -61,7 +61,9 @@ App.prototype.unregisterShortcut = function () {
 }
 
 App.prototype.toggleWindow = function () {
-  this.mb.tray.emit('clicked', {}, { x: 0, y: 0 })
+  if (this.mode === modes.MENUBAR) {
+    this.mb.tray.emit('clicked', {}, { x: 0, y: 0 })
+  }
 }
 
 App.prototype.getAppDataPath = function () {
