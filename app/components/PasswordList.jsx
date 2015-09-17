@@ -7,8 +7,7 @@ export default class PasswordList extends Component {
     let passwordNodes = passwords.map(function (password, i) {
       let isSelected = i === selectedIndex
       return (
-        <PasswordItem uuid={password.uuid}
-                      key={password.uuid}
+        <PasswordItem key={password.uuid}
                       title={password.title}
                       username={password.username}
                       url={password.url}
