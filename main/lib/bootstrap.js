@@ -5,7 +5,7 @@ var AppDataClient = require('./appDataClient')
 var ClipboardClient = require('./clipboardClient')
 var IpcBus = require('./ipcBus')
 
-module.exports = function bootstrap(options) {
+module.exports = function bootstrap (options) {
   var appConfig = resolveConfig(options)
 
   var app = new App(appConfig)
