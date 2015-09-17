@@ -1,30 +1,14 @@
-var path = require('path')
+var resolveConfig = require('./config')
 var App = require('./app')
 var KeepassClient = require('./keepassClient')
 var AppDataClient = require('./appDataClient')
 var ClipboardClient = require('./clipboardClient')
 var IpcBus = require('./ipcBus')
 
-module.exports = function bootstrap(nodeEnv) {
-  var menuBarOpts = {
-    dir: path.resolve(__dirname, '..', '..', 'app'),
-    // width: 400,
-    // height: 175,
-    width: 500,
-    height: 500,
-    x: 0,
-    y: 0
-  }
+module.exports = function bootstrap(options) {
+  var appConfig = resolveConfig(options)
 
-  menuBarOpts.icon = path.resolve(menuBarOpts.dir, 'Icon-Template.png')
-
-  if (nodeEnv === 'development') {
-    menuBarOpts.index = 'file://' + path.join(menuBarOpts.dir, 'index-dev.html')
-  } else {
-    menuBarOpts.index = 'file://' + path.join(menuBarOpts.dir, 'index.html')
-  }
-
-  var app = new App(menuBarOpts)
+  var app = new App(appConfig)
   var ipcBus = new IpcBus(require('ipc'))
   var keepassClient = new KeepassClient()
   var appDataClient = new AppDataClient({

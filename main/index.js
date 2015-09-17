@@ -3,4 +3,6 @@ require('crash-reporter').start()
 
 var bootstrap = require('./lib/bootstrap')
 
-bootstrap(process.env.NODE_ENV)
+bootstrap({
+  nodeEnv: process.env.NODE_ENV
+})
