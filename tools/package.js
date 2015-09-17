@@ -19,6 +19,10 @@ var DEFAULT_OPTS = {
   asar: shouldUseAsar,
   ignore: [
     '/webpack($|/)',
+    '/coverage($|/)',
+    '/.gitignore$',
+    '/.editorconfig$',
+    '/Makefile$',
     '/tools($|/)',
     '/release($|/)'
   ].concat(devDeps.map(function (name) { return '/node_modules/' + name + '($|/)' }))
@@ -64,7 +68,11 @@ function startPack () {
         })
       } else {
         // build for current platform only
-        pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
+        if (argv.arch && argv.platform) {
+          pack(argv.platform, argv.arch, log(argv.arch, argv.platform))
+        } else {
+          pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
+        }
       }
     })
     .catch(function (err) {
