@@ -20,6 +20,9 @@ module.exports = function bootstrap(options) {
   })
 
   ipcBus
+    .use('closeWindow', require('./handlers/closeWindow')({
+      app: app
+    }))
     .use('password', require('./handlers/password')({
       clipboardClient: clipboardClient,
       keepassClient: keepassClient
