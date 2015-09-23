@@ -6,8 +6,7 @@ module.exports = function (options) {
     dir: pathModule.resolve(__dirname, '..', '..', 'app'),
     width: 500,
     height: 500,
-    x: 0,
-    y: 0
+    'window-position': 'topRight'
   }
 
   menubarOpts.icon = pathModule.resolve(menubarOpts.dir, 'Icon-Template.png')
