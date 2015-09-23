@@ -78,7 +78,9 @@ class PasswordSelector extends Component {
     const handlers = {
       'esc': this.handleEscape.bind(this),
       'up': this.handleArrowUp.bind(this),
-      'down': this.handleArrowDown.bind(this)
+      'down': this.handleArrowDown.bind(this),
+      'ctrl+k': this.handleArrowUp.bind(this),
+      'ctrl+j': this.handleArrowDown.bind(this)
     }
 
     return (
