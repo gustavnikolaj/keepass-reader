@@ -9,6 +9,7 @@ import { HotKeys } from 'react-hotkeys'
 import fetchPasswordList from '../actions/fetchPasswordList'
 import requestPathDialog from '../actions/requestPathDialog'
 import copyPassword from '../actions/copyPassword'
+import closeWindow from '../actions/closeWindow'
 
 class Application extends Component {
   render () {
@@ -46,9 +47,8 @@ class Application extends Component {
 
     let globalKeyHandlers = {
       'esc': () => {
-        if (process.env.MENUBAR) {
-          console.log('close this window')
-        }
+        // the closeWindow action is a noop when running in fixed mode
+        dispatch(closeWindow())
       }
     }
 
