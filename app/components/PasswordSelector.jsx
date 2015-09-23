@@ -3,12 +3,6 @@ import { HotKeys } from 'react-hotkeys'
 import PasswordList from './PasswordList'
 import Radium from 'radium'
 
-let keyCodes = {
-  ARROWUP: 38,
-  ARROWDOWN: 40,
-  ESCAPE: 27
-}
-
 class PasswordSelector extends Component {
   constructor (props) {
     super(props)
