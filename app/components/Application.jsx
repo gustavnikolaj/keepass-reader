@@ -4,6 +4,7 @@ import LoadingScreen from './LoadingScreen'
 import PasswordSelector from './PasswordSelector'
 import ClipboardCountdown from './ClipboardCountdown'
 import { connect } from 'react-redux'
+import { HotKeys } from 'react-hotkeys'
 
 import fetchPasswordList from '../actions/fetchPasswordList'
 import requestPathDialog from '../actions/requestPathDialog'
@@ -20,8 +21,10 @@ class Application extends Component {
       passwordList
     } = this.props
 
+    let mainComponent
+
     if (isUnlocked) {
-      return (
+      mainComponent = (
         <div>
           <ClipboardCountdown clipboardTimer={ clipboard } />
           <PasswordSelector copyPassword={ uuid => dispatch(copyPassword(uuid)) }
@@ -29,17 +32,31 @@ class Application extends Component {
         </div>
       )
     } else if (isUnlocking) {
-      return (
+      mainComponent = (
         <LoadingScreen />
       )
     } else {
-      return (
+      mainComponent = (
         <LoginBox submitMasterKey={ key => dispatch(fetchPasswordList(key)) }
                   requestPathDialog={ () => dispatch(requestPathDialog()) }
                   path= { path }
                   isSubmitting={ isUnlocking } />
       )
     }
+
+    let globalKeyHandlers = {
+      'esc': () => {
+        if (process.env.MENUBAR) {
+          console.log('close this window')
+        }
+      }
+    }
+
+    return (
+      <HotKeys keyMap={{}} handlers={ globalKeyHandlers }>
+        {mainComponent}
+      </HotKeys>
+    )
   }
 }
 

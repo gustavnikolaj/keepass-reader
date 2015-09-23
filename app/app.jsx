@@ -2,8 +2,6 @@ import React from 'react'
 import Application from './components/Application.jsx'
 import { Provider } from 'react-redux'
 
-import { HotKeys } from 'react-hotkeys'
-
 import fetchPasswordList from './actions/fetchPasswordList'
 import requestPath from './actions/requestPath'
 
@@ -18,20 +16,10 @@ store.dispatch(requestPath(function () {
 
 let rootElement = document.getElementById('application')
 
-let globalKeyHandlers = {
-  'esc': () => {
-    if (process.env.MENUBAR) {
-      console.log('close this window')
-    }
-  }
-}
-
 React.render(
   <Provider store={store}>
     {() =>
-      <HotKeys keyMap={{}} handlers={ globalKeyHandlers }>
-        <Application />
-      </HotKeys>
+      <Application />
     }
   </Provider>,
   rootElement
