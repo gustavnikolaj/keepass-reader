@@ -27,6 +27,10 @@ module.exports = function bootstrap (options) {
       clipboardClient: clipboardClient,
       keepassClient: keepassClient
     }))
+    .use('username', require('./handlers/username')({
+      clipboardClient: clipboardClient,
+      keepassClient: keepassClient
+    }))
     .use('passwordList', require('./handlers/passwordList')({
       keepassClient: keepassClient
     }))

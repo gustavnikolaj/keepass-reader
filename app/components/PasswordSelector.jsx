@@ -1,12 +1,7 @@
 import React, { Component, PropTypes } from 'react'
+import { HotKeys } from 'react-hotkeys'
 import PasswordList from './PasswordList'
 import Radium from 'radium'
-
-let keyCodes = {
-  ARROWUP: 38,
-  ARROWDOWN: 40,
-  ESCAPE: 27
-}
 
 class PasswordSelector extends Component {
   constructor (props) {
@@ -18,7 +13,6 @@ class PasswordSelector extends Component {
     }
 
     this.handleFilter = this.handleFilter.bind(this)
-    this.handleOnKeyDown = this.handleOnKeyDown.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.getFilteredPasswords = this.getFilteredPasswords.bind(this)
   }
@@ -42,27 +36,41 @@ class PasswordSelector extends Component {
     e.preventDefault()
     const { selectedIndex } = this.state
     let uuid = this.getFilteredPasswords()[selectedIndex].uuid
+    this.refs.filter.getDOMNode().value = ''
+    this.setState({ filter: '' })
     this.props.copyPassword(uuid)
   }
 
-  handleOnKeyDown (e) {
+  handleCtrlEnter (e) {
     const { selectedIndex } = this.state
+    let uuid = this.getFilteredPasswords()[selectedIndex].uuid
+    this.props.copyUsername(uuid)
+    e.preventDefault()
+  }
 
-    if (e.keyCode === keyCodes.ARROWUP) {
-      if (!(selectedIndex - 1 < 0)) {
-        this.setState({
-          selectedIndex: selectedIndex - 1
-        })
-      }
-    } else if (e.keyCode === keyCodes.ARROWDOWN) {
-      if (selectedIndex + 1 < this.getFilteredPasswords().length) {
-        this.setState({
-          selectedIndex: selectedIndex + 1
-        })
-      }
-    } else if (e.keyCode === keyCodes.ESCAPE) {
+  handleEscape (e) {
+    if (this.state.filter) {
       this.refs.filter.getDOMNode().value = ''
       this.handleFilter()
+      e.stopPropagation()
+    }
+  }
+
+  handleArrowUp (e) {
+    const { selectedIndex } = this.state
+    if (!(selectedIndex - 1 < 0)) {
+      this.setState({
+        selectedIndex: selectedIndex - 1
+      })
+    }
+  }
+
+  handleArrowDown (e) {
+    const { selectedIndex } = this.state
+    if (selectedIndex + 1 < this.getFilteredPasswords().length) {
+      this.setState({
+        selectedIndex: selectedIndex + 1
+      })
     }
   }
 
@@ -70,28 +78,39 @@ class PasswordSelector extends Component {
     const { selectedIndex } = this.state
     let filteredPasswords = this.getFilteredPasswords()
 
+    const handlers = {
+      'esc': this.handleEscape.bind(this),
+      'ctrl+enter': this.handleCtrlEnter.bind(this),
+      'up': this.handleArrowUp.bind(this),
+      'down': this.handleArrowDown.bind(this),
+      'ctrl+k': this.handleArrowUp.bind(this),
+      'ctrl+j': this.handleArrowDown.bind(this)
+    }
+
     return (
-      <div>
-        <form onSubmit={ this.handleSubmit } style={ styles.inputContainer }>
-          <input type='input'
-                 ref='filter'
-                 autoFocus
-                 style={ styles.inputWide }
-                 onKeyDown={this.handleOnKeyDown}
-                 onChange={this.handleFilter} />
-        </form>
-        <div style={ styles.passwordList }>
-          <PasswordList passwords={ filteredPasswords }
-                        selectedIndex= { selectedIndex } />
+      <HotKeys keyMap={{}} handlers={ handlers }>
+        <div>
+          <form onSubmit={ this.handleSubmit } style={ styles.inputContainer }>
+            <input type='input'
+                   ref='filter'
+                   autoFocus
+                   style={ styles.inputWide }
+                   onChange={this.handleFilter} />
+          </form>
+          <div style={ styles.passwordList }>
+            <PasswordList passwords={ filteredPasswords }
+                          selectedIndex= { selectedIndex } />
+          </div>
         </div>
-      </div>
+      </HotKeys>
     )
   }
 }
 
 PasswordSelector.propTypes = {
   passwords: PropTypes.array,
-  copyPassword: PropTypes.function
+  copyPassword: PropTypes.function,
+  copyUsername: PropTypes.function
 }
 
 var styles = {

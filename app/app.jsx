@@ -18,7 +18,9 @@ let rootElement = document.getElementById('application')
 
 React.render(
   <Provider store={store}>
-    {() => <Application />}
+    {() =>
+      <Application />
+    }
   </Provider>,
   rootElement
 )

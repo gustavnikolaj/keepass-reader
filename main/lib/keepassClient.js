@@ -72,4 +72,20 @@ KeepassClient.prototype.getPassword = function (uuid, callback) {
   }))
 }
 
+KeepassClient.prototype.getUsername = function (uuid, callback) {
+  this.load(passError(callback, function (list) {
+    var username = false
+    list.some(function (entry) {
+      if (entry.uuid === uuid) {
+        username = entry.username
+      }
+    })
+    if (username) {
+      return callback(null, username)
+    } else {
+      return callback(new Error('UUID not found in database.'))
+    }
+  }))
+}
+
 module.exports = KeepassClient
