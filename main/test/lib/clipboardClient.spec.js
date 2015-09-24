@@ -26,12 +26,11 @@ describe('ClipboardClient', function () {
       clipboard.set('foo')
       return expect(writeTextSpy, 'was called with', 'foo')
     })
-    it('should remember the hash value of the password it set', function () {
+    it('should return the hash value of the password it set', function () {
       var clipboard = ClipboardClientFactory({
         writeText: sinon.stub()
       })
-      clipboard.set('foo')
-      return expect(clipboard, 'to have property', 'hashOfLastSetValue',
+      return expect(clipboard.set('foo'), 'to equal',
                     '0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33')
     })
   })
@@ -43,8 +42,8 @@ describe('ClipboardClient', function () {
         readText: function () { return 'foo' },
         writeText: sinon.stub()
       })
-      clipboard.set('foo')
-      clipboard.clear()
+      var hash = clipboard.set('foo')
+      clipboard.clear(hash)
       return expect(clearSpy, 'was called once')
     })
     it('should not clear a clipboard if the contents has changed', function () {
@@ -54,8 +53,8 @@ describe('ClipboardClient', function () {
         readText: function () { return 'bar' },
         writeText: sinon.stub()
       })
-      clipboard.set('foo')
-      clipboard.clear()
+      var hash = clipboard.set('foo')
+      clipboard.clear(hash)
       return expect(clearSpy, 'was not called')
     })
   })

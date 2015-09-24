@@ -9,6 +9,7 @@ import { HotKeys } from 'react-hotkeys'
 import fetchPasswordList from '../actions/fetchPasswordList'
 import requestPathDialog from '../actions/requestPathDialog'
 import copyPassword from '../actions/copyPassword'
+import copyUsername from '../actions/copyUsername'
 import closeWindow from '../actions/closeWindow'
 
 class Application extends Component {
@@ -29,6 +30,7 @@ class Application extends Component {
         <div>
           <ClipboardCountdown clipboardTimer={ clipboard } />
           <PasswordSelector copyPassword={ uuid => dispatch(copyPassword(uuid)) }
+                            copyUsername={ uuid => dispatch(copyUsername(uuid)) }
                             passwords={ passwordList } />
         </div>
       )

@@ -39,6 +39,13 @@ class PasswordSelector extends Component {
     this.props.copyPassword(uuid)
   }
 
+  handleCtrlEnter (e) {
+    const { selectedIndex } = this.state
+    let uuid = this.getFilteredPasswords()[selectedIndex].uuid
+    this.props.copyUsername(uuid)
+    e.preventDefault()
+  }
+
   handleEscape (e) {
     if (this.state.filter) {
       this.refs.filter.getDOMNode().value = ''
@@ -71,6 +78,7 @@ class PasswordSelector extends Component {
 
     const handlers = {
       'esc': this.handleEscape.bind(this),
+      'ctrl+enter': this.handleCtrlEnter.bind(this),
       'up': this.handleArrowUp.bind(this),
       'down': this.handleArrowDown.bind(this),
       'ctrl+k': this.handleArrowUp.bind(this),
@@ -99,7 +107,8 @@ class PasswordSelector extends Component {
 
 PasswordSelector.propTypes = {
   passwords: PropTypes.array,
-  copyPassword: PropTypes.function
+  copyPassword: PropTypes.function,
+  copyUsername: PropTypes.function
 }
 
 var styles = {
