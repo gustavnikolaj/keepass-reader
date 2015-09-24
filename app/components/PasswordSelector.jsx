@@ -36,6 +36,8 @@ class PasswordSelector extends Component {
     e.preventDefault()
     const { selectedIndex } = this.state
     let uuid = this.getFilteredPasswords()[selectedIndex].uuid
+    this.refs.filter.getDOMNode().value = ''
+    this.setState({ filter: '' })
     this.props.copyPassword(uuid)
   }
 
