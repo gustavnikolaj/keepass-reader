@@ -15,13 +15,13 @@ var options = {
   name: 'keepass-menubar',
   asar: true,
   ignore: [
-      '/webpack($|/)',
-      '/coverage($|/)',
-      '/.gitignore$',
-      '/.editorconfig$',
-      '/Makefile$',
-      '/tools($|/)',
-      '/release($|/)'
+    '/webpack($|/)',
+    '/coverage($|/)',
+    '/.gitignore$',
+    '/.editorconfig$',
+    '/Makefile$',
+    '/tools($|/)',
+    '/release($|/)'
   ].concat(devNodeModules),
   version: electronPrebuiltVersion,
   'app-version': packageJson.version,
