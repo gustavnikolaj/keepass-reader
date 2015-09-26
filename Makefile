@@ -66,8 +66,8 @@ endif
 	git tag v$*
 
 RELEASE_TARGETS=\
-	release/keepass-menubar_%_linux-x64.tar.gz \
-	release/keepass-menubar_%_darwin-x64.tar.gz
+	release/keepass-reader_%_linux-x64.tar.gz \
+	release/keepass-reader_%_darwin-x64.tar.gz
 
 .PHONY: release-%
 release-%: ${RELEASE_TARGETS}
@@ -80,25 +80,25 @@ dist/bundle.js:
 		--profile \
 		--colors
 
-.PRECIOUS: release/keepass-menubar_%_linux-x64
-release/keepass-menubar_%_linux-x64: .git/refs/tags/v% dist/bundle.js
+.PRECIOUS: release/keepass-reader_%_linux-x64
+release/keepass-reader_%_linux-x64: .git/refs/tags/v% dist/bundle.js
 	mkdir -p release
 	node tools/build.js \
 		--platform linux \
 		--arch x64 \
 		--out release
-	mv  release/keepass-menubar-linux-x64 \
-		release/keepass-menubar_$*_linux-x64
+	mv  release/keepass-reader-linux-x64 \
+		release/keepass-reader_$*_linux-x64
 
-.PRECIOUS: release/keepass-menubar_%_darwin-x64
-release/keepass-menubar_%_darwin-x64: .git/refs/tags/v%  dist/bundle.js
+.PRECIOUS: release/keepass-reader_%_darwin-x64
+release/keepass-reader_%_darwin-x64: .git/refs/tags/v%  dist/bundle.js
 	mkdir -p release
 	node tools/build.js \
 		--platform darwin \
 		--arch x64 \
 		--out release
-	mv  release/keepass-menubar-darwin-x64 \
-		release/keepass-menubar_$*_darwin-x64
+	mv  release/keepass-reader-darwin-x64 \
+		release/keepass-reader_$*_darwin-x64
 
 .PRECIOUS: %.tar.gz
 %.tar.gz: %

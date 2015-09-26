@@ -12,7 +12,7 @@ var devNodeModules = devDependenciesNames.map(function (name) {
 
 var options = {
   dir: pathModule.resolve(__dirname, '..'),
-  name: 'keepass-menubar',
+  name: 'keepass-reader',
   asar: true,
   ignore: [
     '/webpack($|/)',

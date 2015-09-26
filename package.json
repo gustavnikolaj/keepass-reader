@@ -1,5 +1,5 @@
 {
-  "name": "@gustavnikolaj/keepass-menubar",
+  "name": "@gustavnikolaj/keepass-reader",
   "version": "0.0.0",
   "description": "Keepass 2 Read-only GUI",
   "main": "main/index.js",

@@ -13,7 +13,7 @@ module.exports = function bootstrap (options) {
   var keepassClient = new KeepassClient()
   var appDataClient = new AppDataClient({
     appDataPath: app.getAppDataPath(),
-    appName: 'keepass-menubar'
+    appName: 'keepass-reader'
   })
   var clipboardClient = new ClipboardClient({
     clipboardModule: require('clipboard')
