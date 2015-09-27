@@ -15,7 +15,7 @@ dmenu could probably be made working on other platforms, but I saw more
 potential in the Electron framework, and as I'm a node developer it was an
 obvious choice for me.
 
-# Installation
+## Installation
 
 Work in progress. The project is still in development, so this is not finalized.
 I'm planning on distributing versions for at least Linux and OSX, as those are
@@ -23,7 +23,7 @@ the platforms that I use most often. I might add Windows support if I get
 annoyed enough with the existing clients. My goal is to distribute binaries for
 convenient installation on all supported platforms.
 
-# License
+## License
 
 This module is made public under the ISC License.
 
