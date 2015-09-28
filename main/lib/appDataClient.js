@@ -32,6 +32,7 @@ AppDataClient.prototype.set = function (key, value, callback) {
       console.log(err)
       return callback()
     }
+    console.log('writing', value, 'to', filePath)
     fs.writeFile(filePath, value, 'utf-8', function (err) {
       if (err) {
         console.log(err)

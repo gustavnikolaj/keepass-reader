@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import fetchPasswordList from './actions/fetchPasswordList'
 import requestPath from './actions/requestPath'
+import requestKeyFilePath from './actions/requestKeyFilePath'
 
 import reducer from './reducer'
 import createStore from './lib/createStore'
@@ -11,7 +12,9 @@ import createStore from './lib/createStore'
 let store = createStore(reducer)
 
 store.dispatch(requestPath(function () {
-  store.dispatch(fetchPasswordList())
+  store.dispatch(requestKeyFilePath(function () {
+    store.dispatch(fetchPasswordList())
+  }))
 }))
 
 let rootElement = document.getElementById('application')

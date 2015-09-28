@@ -7,13 +7,15 @@ import {
   REQUEST_PASSWORD_LIST,
   RECEIVE_PASSWORD_LIST,
   PASSWORD_COPIED_TO_CLIPBOARD,
-  SET_PATH
+  SET_PATH,
+  SET_KEY_FILE_PATH
 } from './actions/types.js'
 
 const initialState = {
   isUnlocked: false,
   isUnlocking: false,
   path: '',
+  keyFilePath: '',
   clipboard: {
     timeIn: 0,
     timeOut: 0
@@ -28,6 +30,11 @@ export default function reducer (state = initialState, action) {
       return {
         ...state,
         path: action.path
+      }
+    case SET_KEY_FILE_PATH:
+      return {
+        ...state,
+        keyFilePath: action.path
       }
     case UNLOCK_DATABASE_SUBMIT:
       return {

@@ -14,7 +14,25 @@ class LoginBox extends Component {
     this.props.submitMasterKey(masterKey)
   }
   render () {
-    let { path, isSubmitting, requestPathDialog } = this.props
+    let {
+      path,
+      keyFilePath,
+      clearKeyFilePath,
+      isSubmitting,
+      requestPathDialog,
+      requestKeyFileDialog
+    } = this.props
+
+    let keyFileDialogOnClick = () => {
+      if (keyFilePath) {
+        return clearKeyFilePath()
+      } else {
+        return requestKeyFileDialog()
+      }
+    }
+
+    let keyFileDialogButtonLabel = keyFilePath ? 'Remove' : '...'
+
     return (
       <form onSubmit={this.handleSubmit}>
         <div style={styles.inputContainer}>
@@ -28,6 +46,18 @@ class LoginBox extends Component {
                   ref='pathDialogButton'
                   onClick={ requestPathDialog }
                   style={ styles.inputWideButton }>...</button>
+        </div>
+        <div style={styles.inputContainer}>
+          <input type='text'
+                 style={[ styles.inputWide, styles.inputWideDisabled ]}
+                 disabled
+                 value={ keyFilePath }
+                 placeholder='Path to key file'
+                 ref='keyFilePath' />
+          <button type='button'
+                  ref='keyFileDialogButton'
+                  onClick={ keyFileDialogOnClick }
+                  style={ styles.inputWideButton }>{ keyFileDialogButtonLabel }</button>
         </div>
         <div style={ styles.inputContainer }>
           <input type='password'
@@ -49,7 +79,10 @@ class LoginBox extends Component {
 LoginBox.propTypes = {
   submitMasterKey: PropTypes.function,
   requestPathDialog: PropTypes.function,
+  requestKeyFileDialog: PropTypes.function,
   path: PropTypes.string,
+  keyFilePath: PropTypes.string,
+  clearKeyFilePath: PropTypes.string,
   isSubmitting: PropTypes.boolean
 }
 

@@ -8,6 +8,8 @@ import { HotKeys } from 'react-hotkeys'
 
 import fetchPasswordList from '../actions/fetchPasswordList'
 import requestPathDialog from '../actions/requestPathDialog'
+import requestKeyFileDialog from '../actions/requestKeyFileDialog'
+import clearKeyFilePath from '../actions/clearKeyFilePath'
 import copyPassword from '../actions/copyPassword'
 import copyUsername from '../actions/copyUsername'
 import closeWindow from '../actions/closeWindow'
@@ -19,6 +21,7 @@ class Application extends Component {
       isUnlocked,
       isUnlocking,
       path,
+      keyFilePath,
       clipboard,
       passwordList
     } = this.props
@@ -42,7 +45,10 @@ class Application extends Component {
       mainComponent = (
         <LoginBox submitMasterKey={ key => dispatch(fetchPasswordList(key)) }
                   requestPathDialog={ () => dispatch(requestPathDialog()) }
+                  requestKeyFileDialog={ () => dispatch(requestKeyFileDialog()) }
+                  clearKeyFilePath={ () => dispatch(clearKeyFilePath()) }
                   path= { path }
+                  keyFilePath= { keyFilePath }
                   isSubmitting={ isUnlocking } />
       )
     }
@@ -67,6 +73,7 @@ Application.propTypes = {
   isUnlocked: PropTypes.bool,
   isUnlocking: PropTypes.bool,
   path: PropTypes.string,
+  keyFilePath: PropTypes.string,
   clipboard: PropTypes.obj,
   passwordList: PropTypes.array
 }

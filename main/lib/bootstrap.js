@@ -43,4 +43,17 @@ module.exports = function bootstrap (options) {
       keepassClient: keepassClient,
       appDataClient: appDataClient
     }))
+    .use('keyFilePath', require('./handlers/keyFilePath')({
+      keepassClient: keepassClient,
+      appDataClient: appDataClient
+    }))
+    .use('clearKeyFilePath', require('./handlers/clearKeyFilePath')({
+      keepassClient: keepassClient,
+      appDataClient: appDataClient
+    }))
+    .use('keyFileDialog', require('./handlers/keyFileDialog')({
+      dialog: require('dialog'),
+      keepassClient: keepassClient,
+      appDataClient: appDataClient
+    }))
 }

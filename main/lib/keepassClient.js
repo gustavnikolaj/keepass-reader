@@ -2,8 +2,9 @@ var kpio = require('keepass.io')
 var passError = require('passerror')
 var keepassUtils = require('./keepassUtils')
 
-function KeepassClient (path) {
+function KeepassClient (path, keyFile) {
   this._path = path || ''
+  this._keyFile = keyFile || ''
 }
 
 KeepassClient.prototype.masterKey = function (masterKey) {
@@ -18,6 +19,13 @@ KeepassClient.prototype.path = function (path) {
   this._path = path
 }
 
+KeepassClient.prototype.keyFile = function (path) {
+  if (typeof path === 'undefined') {
+    return this._keyFile
+  }
+  this._keyFile = path
+}
+
 KeepassClient.prototype.load = function (callback) {
   if (!this.credential) {
     return setImmediate(function () {
@@ -28,6 +36,13 @@ KeepassClient.prototype.load = function (callback) {
   var db = new kpio.Database()
 
   db.addCredential(this.credential)
+
+  if (this._keyFile) {
+    console.log('using keyFile', this._keyFile)
+    var keyFileCred = new kpio.Credentials.Keyfile(this._keyFile)
+    db.addCredential(keyFileCred)
+  }
+
   try {
     db.loadFile(this._path, passError(callback, function (api) {
       var data = api.getRaw()
