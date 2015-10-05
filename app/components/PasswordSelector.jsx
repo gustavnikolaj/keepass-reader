@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { HotKeys } from 'react-hotkeys'
 import PasswordList from './PasswordList'
-import Radium from 'radium'
+import styles from './PasswordSelector.less'
 
 class PasswordSelector extends Component {
   constructor (props) {
@@ -90,14 +90,15 @@ class PasswordSelector extends Component {
     return (
       <HotKeys keyMap={{}} handlers={ handlers }>
         <div>
-          <form onSubmit={ this.handleSubmit } style={ styles.inputContainer }>
+          <form onSubmit={ this.handleSubmit }
+                className={ styles.inputContainer }>
             <input type='input'
                    ref='filter'
                    autoFocus
-                   style={ styles.inputWide }
+                   className={ styles.inputWide }
                    onChange={this.handleFilter} />
           </form>
-          <div style={ styles.passwordList }>
+          <div className={ styles.passwordList }>
             <PasswordList passwords={ filteredPasswords }
                           selectedIndex= { selectedIndex } />
           </div>
@@ -113,32 +114,4 @@ PasswordSelector.propTypes = {
   copyUsername: PropTypes.function
 }
 
-var styles = {
-  inputWide: {
-    display: 'block',
-    borderRadius: 5,
-    border: '1px solid #ddd',
-    outline: 'none',
-    padding: 10,
-    width: '100%',
-    ':focus': {
-      background: '#ffffee'
-    }
-  },
-  inputContainer: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10
-  },
-  passwordList: {
-    position: 'absolute',
-    top: 50,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'auto'
-  }
-}
-
-export default Radium(PasswordSelector)
+export default PasswordSelector

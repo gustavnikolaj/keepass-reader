@@ -40,6 +40,14 @@ module.exports = function (opts) {
           test: /\.js$/,
           loader: 'babel',
           include: appRoot
+        },
+        {
+          test: /\.less$/,
+          loaders: [ 'style-loader', 'css-loader?modules', 'less-loader' ]
+        },
+        {
+          test: /\.css$/,
+          loaders: [ 'style-loader', 'css-loader?modules' ]
         }
       ]
     },

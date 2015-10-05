@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import Radium from 'radium'
+import styles from './LoginBox.less'
 
 class LoginBox extends Component {
   constructor (props) {
@@ -35,9 +35,9 @@ class LoginBox extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <div style={styles.inputContainer}>
+        <div className={styles.inputContainer}>
           <input type='text'
-                 style={[ styles.inputWide, styles.inputWideDisabled ]}
+                 className={ styles.inputWide }
                  disabled
                  value={ path }
                  placeholder='Path to .kdbx'
@@ -45,11 +45,11 @@ class LoginBox extends Component {
           <button type='button'
                   ref='pathDialogButton'
                   onClick={ requestPathDialog }
-                  style={ styles.inputWideButton }>...</button>
+                  className={ styles.inputWideButton }>...</button>
         </div>
-        <div style={styles.inputContainer}>
+        <div className={styles.inputContainer}>
           <input type='text'
-                 style={[ styles.inputWide, styles.inputWideDisabled ]}
+                 className={ styles.inputWide }
                  disabled
                  value={ keyFilePath }
                  placeholder='Path to key file'
@@ -57,18 +57,18 @@ class LoginBox extends Component {
           <button type='button'
                   ref='keyFileDialogButton'
                   onClick={ keyFileDialogOnClick }
-                  style={ styles.inputWideButton }>{ keyFileDialogButtonLabel }</button>
+                  className={ styles.inputWideButton }>{ keyFileDialogButtonLabel }</button>
         </div>
-        <div style={ styles.inputContainer }>
+        <div className={ styles.inputContainer }>
           <input type='password'
-                 style={ styles.inputWide }
+                 className={ styles.inputWide }
                  autoFocus
                  placeholder='Master key...'
                  disabled={ isSubmitting }
                  ref='masterKey' />
           <button disabled={ isSubmitting }
                   ref='unlockButton'
-                  style={ styles.inputWideButton }
+                  className={ styles.inputWideButton }
                   type='submit'>Unlock!</button>
         </div>
       </form>
@@ -86,40 +86,4 @@ LoginBox.propTypes = {
   isSubmitting: PropTypes.boolean
 }
 
-var styles = {
-  inputContainer: {
-    position: 'relative',
-    marginBottom: 10,
-    width: '100%'
-  },
-  inputWide: {
-    display: 'block',
-    borderRadius: 5,
-    border: '1px solid #ddd',
-    outline: 'none',
-    padding: 10,
-    width: '100%',
-    ':focus': {
-      background: '#ffffee'
-    }
-  },
-  inputWideDisabled: {
-    background: '#f1f1f1'
-  },
-  inputWideButton: {
-    position: 'absolute',
-    border: '1px solid #ddd',
-    outline: 0,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-    width: 100,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    ':hover': {
-      borderColor: '#ccc'
-    }
-  }
-}
-
-export default Radium(LoginBox)
+export default LoginBox
