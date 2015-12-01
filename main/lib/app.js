@@ -45,6 +45,22 @@ App.prototype.onWillQuit = function () {
 App.prototype.registerShortcut = function () {
   if (this.options.mode === modes.MENUBAR) {
     var boundToggle = this.toggleWindow.bind(this)
+
+    var problematicAccelerators = [
+      'F12',
+      'F5',
+      'Control+R',
+      'Control+Shift+I'
+    ]
+
+    problematicAccelerators
+      .filter(globalShortcut.isRegistered.bind(globalShortcut))
+      .forEach(globalShortcut.unregister.bind(globalShortcut))
+
+    if (globalShortcut.isRegistered('F12')) {
+      console.log('has binding for F12')
+    }
+
     if (!globalShortcut.register('ctrl+shift+space', boundToggle)) {
       throw new Error('Could not register shortcut to open application.')
     }
